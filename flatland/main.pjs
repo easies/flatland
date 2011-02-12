@@ -1,0 +1,75 @@
+/* vim: set ft=javascript */
+
+class Penta {
+    float x;
+    float y;
+    float speed_x;
+    float speed_y;
+    float side;
+    float a;
+
+    Penta(float _x, float _y) {
+        x = _x;
+        y = _y;
+        speed_x = 0;
+        speed_y = 0;
+        side = 20;
+        a = sin(radians(54.0)) / sin(radians(72.0)) * side;
+    }
+
+    void add_speed(dx, dy) {
+        speed_x += dx;
+        speed_y += dy;
+    }
+
+    ArrayList vertices() {
+        t = radians(216.0);
+        acc = new ArrayList();
+        acc.add(x);
+        acc.add(y);
+        acc.add(x + a * cos(t));
+        acc.add(y + a * sin(t));
+        for (int i = 0; i < 5; i++) {
+            acc.add(acc[2 + i * 2] + side * cos(i / 5.0 * 2 * PI));
+            acc.add(acc[3 + i * 2] + side * sin(i / 5.0 * 2 * PI));
+        }
+        return acc;
+    }
+
+    void update() {
+        vs = vertices();
+        for (int i = 0; i < vs.length(); i += 2) {
+            j = i + 1;
+            line(x, y, vs.get(i), vs.get(j));
+        }
+    }
+}
+
+void setup() {
+    size(800, 600);
+    background(125);
+    fill(255);
+    noLoop();
+    PFont fontA = loadFont("Courier");
+    textFont(fontA, 14);
+}
+
+void draw() {
+    text("Hello, World!", 20, 20);
+    /*
+    for (int i = 0; i < width; i++) {
+        float r = random(255);
+        float x = random(0, width);
+        stroke(r, 100);
+        line(i, 0, x, height);
+    }
+    */
+    stroke(100, 100);
+    line(0, 0, width, height);
+    penta = new Penta(50, 50);
+    text(str(penta.vertices()), 30, 30);
+    penta.update();
+}
+
+void mousePressed() {
+}
