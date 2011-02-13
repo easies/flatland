@@ -1,5 +1,28 @@
 /* vim: set ft=javascript */
 
+
+Array g_vertices(x, y, n, side, rotation) {
+    // The angle between sides.
+    angle1 = PI * (n - 2) / n;
+    // The distance from the center to a vertex.
+    center_to_vertex = sin(angle1 / 2) / sin(PI - angle1) * side;
+    // The starting angle.
+    start_angle = PI * (n - 2) / n + rotation;
+    points = new float[n * 2];
+    points[0] = x + center_to_vertex * cos(start_angle);
+    points[1] = y + center_to_vertex * sin(start_angle);
+    // The inner angle
+    C = 2 * PI / n;
+    for (int i = 0; i < n - 1; i++) {
+        x_index = 2 * i + 2;
+        y_index = x_index + 1;
+        points[x_index] = points[x_index - 2] - side * cos(i * C + rotation);
+        points[y_index] = points[y_index - 2] - side * sin(i * C + rotation);
+    }
+    return points;
+}
+
+
 class Penta {
     float x;
     float y;
@@ -7,13 +30,17 @@ class Penta {
     float speed_y;
     float side;
     float a;
+    float rotation;
 
     Penta(float _x, float _y) {
+        rotation = 0.0;
         x = _x;
         y = _y;
         speed_x = 0;
         speed_y = 0;
-        side = 20;
+        side = 50;
+        // Law of sines.
+        // The distance from the center to a vertex.
         a = sin(radians(54.0)) / sin(radians(72.0)) * side;
     }
 
@@ -22,26 +49,58 @@ class Penta {
         speed_y += dy;
     }
 
-    ArrayList vertices() {
-        t = radians(216.0);
-        acc = new ArrayList();
-        acc.add(x);
-        acc.add(y);
-        acc.add(x + a * cos(t));
-        acc.add(y + a * sin(t));
-        for (int i = 0; i < 5; i++) {
-            acc.add(acc[2 + i * 2] + side * cos(i / 5.0 * 2 * PI));
-            acc.add(acc[3 + i * 2] + side * sin(i / 5.0 * 2 * PI));
+    /**
+     * @return The vertices of the pentagon in an array. i.e.
+     *     [x1, y1, x2, y2, ..., x5, y5]
+     */
+    Array vertices() {
+        /*
+        t = radians(54.0) + rotation;
+        acc = new float[10];
+        acc[0] = x + a * cos(t);
+        acc[1] = y + a * sin(t);
+        C = PI / 2.5;
+        for (int i = 0; i < 4; i++) {
+            acc[2 + 2 * i] = acc[i * 2] - side * cos(i * C + rotation);
+            acc[3 + 2 * i] = acc[i * 2 + 1] - side * sin(i * C + rotation);
         }
         return acc;
+        */
+        return g_vertices(x, y, 5, side, rotation);
     }
 
     void update() {
         vs = vertices();
-        for (int i = 0; i < vs.length(); i += 2) {
-            j = i + 1;
-            line(x, y, vs.get(i), vs.get(j));
-        }
+        // Set border and fill colors to white.
+        stroke(255);
+        fill(255);
+        // Draw the pentagon in strips.
+        triangle(vs[0], vs[1], vs[2], vs[3], vs[4], vs[5]);
+        triangle(vs[0], vs[1], vs[4], vs[5], vs[8], vs[9]);
+        triangle(vs[4], vs[5], vs[6], vs[7], vs[8], vs[9]);
+        /*
+        stroke(255, 0, 0, 100);
+        line(x, y, vs[0], vs[1])
+        stroke(0, 255, 0);
+        line(vs[0], vs[1], vs[2], vs[3]);
+        stroke(0, 0, 255);
+        line(vs[2], vs[3], vs[4], vs[5]);
+        stroke(255, 0, 0);
+        line(vs[4], vs[5], vs[6], vs[7]);
+        stroke(0, 255, 0);
+        line(vs[6], vs[7], vs[8], vs[9]);
+        stroke(0, 0, 255);
+        line(vs[8], vs[9], vs[0], vs[1]);
+        */
+        /*
+        beginShape(TRIANGLE_STRIP);
+            vertex(vs[0], vs[1]);
+            vertex(vs[2], vs[3]);
+            vertex(vs[4], vs[5]);
+            vertex(vs[6], vs[7]);
+            vertex(vs[8], vs[9]);
+        endShape();
+        */
     }
 }
 
@@ -50,7 +109,7 @@ void setup() {
     background(125);
     fill(255);
     noLoop();
-    PFont fontA = loadFont("Courier");
+    PFont fontA = loadFont("Ubuntu");
     textFont(fontA, 14);
 }
 
@@ -64,10 +123,10 @@ void draw() {
         line(i, 0, x, height);
     }
     */
-    stroke(100, 100);
+    stroke(255, 100);
     line(0, 0, width, height);
-    penta = new Penta(50, 50);
-    text(str(penta.vertices()), 30, 30);
+    penta = new Penta(100, 100);
+    text(str(penta.vertices()), 0, height);
     penta.update();
 }
 
