@@ -3,8 +3,13 @@
 
 SOURCES = main.pjs events.pjs bezier.pjs
 
-all:
+all: flatland.pjs
+
+flatland.pjs: $(SOURCES)
 	cat $(SOURCES) > flatland.pjs
 
+clean:
+	$(RM) flatland.pjs
 
-.PHONY = all
+
+.PHONY = all clean
