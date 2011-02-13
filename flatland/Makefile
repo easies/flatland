@@ -2,6 +2,7 @@
 
 
 SOURCES = main.pjs events.pjs bezier.pjs
+# http://www.bdc.cx/software/stripcmt/
 STRIPCMT=`which stripcmt || cat`
 
 all: flatland.pjs
