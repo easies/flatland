@@ -1,0 +1,40 @@
+/* vim: set ft=processing : */
+
+
+void mouseClicked() {
+//    println("clicked   " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+}
+
+void mouseDragged() {
+//    println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    penta.x = mouseX;
+    penta.y = mouseY;
+    redraw();
+}
+
+void mouseMoved() {
+//    println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+}
+
+void mousePressed() {
+//    println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+}
+
+void mouseReleased() {
+//    println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    penta.x = mouseX;
+    penta.y = mouseY;
+    redraw();
+}
+
+void keyPressed() {
+//    println("pressed  " + int(key) + " " + keyCode);
+}
+
+void keyReleased() {
+//    println("released " + int(key) + " " + keyCode);    
+}
+
+void keyTyped() {
+//    println("typed    " + int(key) + " " + keyCode);    
+}

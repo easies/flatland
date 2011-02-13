@@ -1,20 +1,24 @@
-/* vim: set ft=javascript */
-
+/* vim: set ft=processing :
+ * Syntax file is at http://web.ift.uib.no/~szhorvat/processing.vim
+ *                or http://www.vim.org/scripts/script.php?script_id=2115
+ */
 
 Array g_vertices(x, y, n, side, rotation) {
     // The angle between sides.
     angle1 = PI * (n - 2) / n;
+    // Law of sines.
     // The distance from the center to a vertex.
     center_to_vertex = sin(angle1 / 2) / sin(PI - angle1) * side;
     // The starting angle.
-    start_angle = PI * (n - 2) / n + rotation;
+    start_angle = angle1 / 2 + rotation;
+   // PI * (n - 2) / n + rotation;
     points = new float[n * 2];
-    points[0] = x + center_to_vertex * cos(start_angle);
+    points[0] = x - center_to_vertex * cos(start_angle);
     points[1] = y + center_to_vertex * sin(start_angle);
     // The inner angle
-    C = 2 * PI / n;
-    for (int i = 0; i < n - 1; i++) {
-        x_index = 2 * i + 2;
+    C = TWO_PI / n;
+    for (int i = 1; i < n; i++) {
+        x_index = 2 * i;
         y_index = x_index + 1;
         points[x_index] = points[x_index - 2] - side * cos(i * C + rotation);
         points[y_index] = points[y_index - 2] - side * sin(i * C + rotation);
@@ -39,9 +43,6 @@ class Penta {
         speed_x = 0;
         speed_y = 0;
         side = 50;
-        // Law of sines.
-        // The distance from the center to a vertex.
-        a = sin(radians(54.0)) / sin(radians(72.0)) * side;
     }
 
     void add_speed(dx, dy) {
@@ -104,16 +105,17 @@ class Penta {
     }
 }
 
+penta = new Penta(100, 100);
 void setup() {
     size(800, 600);
-    background(125);
     fill(255);
-    noLoop();
     PFont fontA = loadFont("Ubuntu");
     textFont(fontA, 14);
+    loop();
 }
 
 void draw() {
+    background(125);
     text("Hello, World!", 20, 20);
     /*
     for (int i = 0; i < width; i++) {
@@ -123,12 +125,10 @@ void draw() {
         line(i, 0, x, height);
     }
     */
+    penta.update();
     stroke(255, 100);
     line(0, 0, width, height);
-    penta = new Penta(100, 100);
-    text(str(penta.vertices()), 0, height);
-    penta.update();
-}
-
-void mousePressed() {
+    stroke(0, 100);
+    line(0, 0, 100, 100);
+    text("fps: " + frameRate, 0, height);
 }

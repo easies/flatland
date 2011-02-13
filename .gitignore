@@ -1,2 +1,4 @@
 env
 *.py[co]
+*.swp
+flatland/flatland.pjs
