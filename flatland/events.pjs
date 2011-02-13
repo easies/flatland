@@ -23,7 +23,6 @@ void mousePressed() {
     penta.pressed = true;
     penta.next_x = mouseX;
     penta.next_y = mouseY;
-    penta.set_points();
     redraw();
 //    println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
 }
@@ -32,6 +31,7 @@ void mouseReleased() {
     penta.pressed = false;
     penta.control_x = mouseX;
     penta.control_y = mouseY;
+    penta.set_points();
 //    println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     redraw();
 }

@@ -40,26 +40,45 @@ class Penta {
     float rotation;
     boolean pressed;
     float[] next_points;
+    int n_current;
 
-    Penta(float _x, float _y) {
+    Penta(float x, float y) {
         pressed = false;
         rotation = 0.0;
-        x = _x;
-        y = _y;
+        next_points = new float[0];
+        n_current = 0;
+        this.x = x, this.y = y;
         speed_x = 0, speed_y = 0;
         control_x = 0, control_y = 0;
         next_x = 0, next_y = 0;
         side = 50;
     }
 
-    void add_speed(dx, dy) {
-        speed_x += dx;
-        speed_y += dy;
+    void set_points() {
+        next_points = g_bezier_to_points(x, y, control1_x, control1_y,
+            control2_x, control2_y, next_x, next_y, 150);
+        n_current = 0;
     }
 
-    void set_points() {
-        points = g_bezier_to_points(x, y, control1_x, control1_y,
-            control2_x, control2_y, next_x, next_y);
+    void move() {
+        pl = next_points.length;
+        if (n_current >= pl) {
+            n_current = 0;
+            next_points = new float[0];
+            return;
+        }
+        if (n_current + 2 == pl) {
+            x = next_points[n_current];
+            y = next_points[n_current + 1];
+        } else {
+            x = next_points[n_current];
+            y = next_points[n_current + 1];
+            // XXX move based on time?
+            // Find time elapsed.
+            // speed = 30;
+            // C = speed / frameRate
+        }
+        n_current += 2;
     }
 
     /**
@@ -101,6 +120,7 @@ class Penta {
         triangle(vs[0], vs[1], vs[2], vs[3], vs[4], vs[5]);
         triangle(vs[0], vs[1], vs[4], vs[5], vs[8], vs[9]);
         triangle(vs[4], vs[5], vs[6], vs[7], vs[8], vs[9]);
+        move();
     }
 }
 
