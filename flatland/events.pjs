@@ -7,23 +7,32 @@ void mouseClicked() {
 
 void mouseDragged() {
 //    println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    penta.x = mouseX;
-    penta.y = mouseY;
+    penta.control_x = mouseX;
+    penta.control_y = mouseY;
     redraw();
 }
 
 void mouseMoved() {
 //    println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    penta.control_x = mouseX;
+    penta.control_y = mouseY;
+    redraw();
 }
 
 void mousePressed() {
+    penta.pressed = true;
+    penta.next_x = mouseX;
+    penta.next_y = mouseY;
+    penta.set_points();
+    redraw();
 //    println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
 }
 
 void mouseReleased() {
+    penta.pressed = false;
+    penta.control_x = mouseX;
+    penta.control_y = mouseY;
 //    println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    penta.x = mouseX;
-    penta.y = mouseY;
     redraw();
 }
 

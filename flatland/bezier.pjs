@@ -1,0 +1,24 @@
+/* vim: set ft=processing : */
+
+// The parametric function
+// B(t) = (1-t)^3(P1) + 3(1-t)^2(t)(P2) + 3(1-t)(t^2)(P3) + t^3(P4)
+float b_cubic(t, p1, p2, p3, p4) {
+    return pow((1 - t), 3) * p1 +
+        3 * pow((1 - t), 2) * t * p2 +
+        3 * (1 - t) * t * t * p3 +
+        t * t * t * p4;
+}
+
+/**
+ * The x, y arguments are the control points of the bezier line.
+ * n is the number points.
+ * Returns the points in the bezier line.
+ */
+float[] g_bezier_to_points(x1, y1, x2, y2, x3, y3, x4, y4, n) {
+    float[] points = new float[(n + 1) * 2];
+    for (int i = 0; i <= n; i++) {
+        points[2 * i] = b_cubic(i / n, x1, x2, x3, x4);
+        points[2 * i + 1] = b_cubic(i / n, y1, y2, y3, y4);
+    }
+    return points;
+}
