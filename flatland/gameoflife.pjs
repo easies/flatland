@@ -20,7 +20,7 @@ class GameOfLife {
         cells = new int[w * h];
         livecells = new ArrayList();
         size = 20;
-        tick = 0;
+        tick = second();
     }
 
     void contains(int index) {
@@ -116,18 +116,19 @@ class GameOfLife {
         return next_gol;
     }
 
-    void next_() {
-        tick++;
-        if (tick < 60) {
+    void _next() {
+        s = second();
+        if (s == tick) {
             return;
         }
+        tick = s;
         n = next();
         cells = n.cells;
         livecells = n.livecells;
-        tick = 0;
     }
 
     void draw() {
+        _next();
         noStroke();
         fill(255);
         for (int i = 0, len = livecells.size(); i < len; i++) {
@@ -138,16 +139,3 @@ class GameOfLife {
         }
     }
 }
-
-/*
-GameOfLife gol = new GameOfLife(0, 0, 10, 10);
-gol.add(2, 1);
-gol.add(2, 2);
-gol.add(2, 3);
-gol.add(2, 4);
-println(gol.livecells.toArray());
-gol = gol.next();
-println(gol.livecells.toArray());
-gol = gol.next();
-println(gol.livecells.toArray());
-*/
