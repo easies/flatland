@@ -2,13 +2,15 @@
 
 
 SOURCES = main.pjs events.pjs bezier.pjs
-# http://www.bdc.cx/software/stripcmt/
-STRIPCMT=`which stripcmt || cat`
+# cpp strips out comments. -P disables header comments.
 
 all: flatland.pjs
 
-flatland.pjs: $(SOURCES)
-	$(STRIPCMT) $(SOURCES) > flatland.pjs
+debug:
+	cat $(SOURCES) | cpp -P -DDEBUG > flatland.pjs
+
+flatland.pjs:
+	cat $(SOURCES) | cpp -P > flatland.pjs
 
 clean:
 	$(RM) flatland.pjs

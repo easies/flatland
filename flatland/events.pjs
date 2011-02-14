@@ -2,18 +2,24 @@
 
 
 void mouseClicked() {
-//    println("clicked   " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #if DEBUG
+        println("clicked   " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #endif
 }
 
 void mouseDragged() {
-//    println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #if DEBUG
+        println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #endif
     penta.control_x = mouseX;
     penta.control_y = mouseY;
     redraw();
 }
 
 void mouseMoved() {
-//    println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #if DEBUG
+        println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #endif
     penta.control_x = mouseX;
     penta.control_y = mouseY;
     redraw();
@@ -24,7 +30,9 @@ void mousePressed() {
     penta.next_x = mouseX;
     penta.next_y = mouseY;
     redraw();
-//    println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #if DEBUG
+        println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #endif
 }
 
 void mouseReleased() {
@@ -32,18 +40,22 @@ void mouseReleased() {
     penta.control_x = mouseX;
     penta.control_y = mouseY;
     penta.set_points();
-//    println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #if DEBUG
+        println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
+    #endif
     redraw();
 }
 
+#if DEBUG
 void keyPressed() {
-//    println("pressed  " + int(key) + " " + keyCode);
+    println("pressed  " + int(key) + " " + keyCode);
 }
 
 void keyReleased() {
-//    println("released " + int(key) + " " + keyCode);    
+    println("released " + int(key) + " " + keyCode);
 }
 
 void keyTyped() {
-//    println("typed    " + int(key) + " " + keyCode);    
+    println("typed    " + int(key) + " " + keyCode);
 }
+#endif
