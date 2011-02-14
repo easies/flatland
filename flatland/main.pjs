@@ -125,12 +125,18 @@ class Penta {
 }
 
 penta = new Penta(100, 100);
+gol = new GameOfLife(300, 300, 10, 10);
 void setup() {
+	frameRate(60);
     size(800, 600);
     fill(255);
     PFont fontA = loadFont("Ubuntu");
     textFont(fontA, 14);
     loop();
+	gol.add(1, 2);
+	gol.add(2, 2);
+	gol.add(3, 2);
+	gol.add(4, 2);
 }
 
 void draw() {
@@ -158,5 +164,7 @@ void draw() {
     stroke(0, 0, 0);
     bezier(30, 20,  80, 5,  80, 75,  30, 75);
      */
+	gol.draw();
+	gol.next_();
     text("fps: " + frameRate, 0, height);
 }

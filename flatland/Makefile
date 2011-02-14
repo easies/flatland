@@ -1,15 +1,15 @@
 # Helper Makefile to amalgamate the sources.
 
 
-SOURCES = main.pjs events.pjs bezier.pjs
+SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs
 # cpp strips out comments. -P disables header comments.
 
 all: flatland.pjs
 
-debug:
+debug: $(SOURCES)
 	cat $(SOURCES) | cpp -P -DDEBUG > flatland.pjs
 
-flatland.pjs:
+flatland.pjs: $(SOURCES)
 	cat $(SOURCES) | cpp -P > flatland.pjs
 
 clean:

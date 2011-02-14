@@ -1,0 +1,153 @@
+/* vim: set ft=processing : */
+
+/*
+ * 1. Every live cell with two or three neighbors survives.
+ * 2. Every live cell with four or more neighbors dies.
+ * 3. Every empty cell with three neighbors gets "birthed".
+ */
+class GameOfLife {
+    float x, y;
+    /* width height */
+    float w, h;
+    Array cells;
+    ArrayList livecells;
+    int size;
+    int tick;
+
+    GameOfLife(x, y, w, h) {
+        this.x = x, this.y = y;
+        this.w = w, this.h = h;
+        cells = new int[w * h];
+        livecells = new ArrayList();
+        size = 20;
+        tick = 0;
+    }
+
+    void contains(int index) {
+        return cells[index] == 1;
+    }
+
+    void add(int x, int y) {
+        n = x * w + y;
+        if (!cells[n]) {
+            cells[n] = 1;
+            livecells.add(n);
+        }
+    }
+
+    void remove(int x, int y) {
+        n = x * w + y;
+        cells[n] = 0;
+        livecells.remove(n);
+    }
+
+    int get_index(int x, int y) {
+        return x * w + y;
+    }
+
+    boolean is_valid_index(int index) {
+        return 0 <= index && index < cells.length;
+    }
+
+    Boolean is_valid(int x, int y) {
+        return 0 <= x && x < w && 0 <= y && y < h;
+    }
+
+    int[] neighbors(int x, int y) {
+        return new int[] {
+            get_index(x - 1, y - 1),
+            get_index(x - 1, y),
+            get_index(x - 1, y + 1),
+            get_index(x, y - 1),
+            get_index(x, y + 1),
+            get_index(x + 1, y - 1),
+            get_index(x + 1, y),
+            get_index(x + 1, y + 1)
+        }
+    }
+
+    int count_neighbors(int x, int y) {
+        nbs = neighbors(x, y);
+        count = 0;
+        for (int i = 0, len = nbs.length; i < len; i++) {
+            nb = nbs[i];
+            x = floor(nb / w);
+            y = nb % w;
+            if (is_valid(x, y)) {
+                if (contains(nb)) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    GameOfLife next() {
+        GameOfLife next_gol = new GameOfLife(x, y, w, h);
+        ArrayList empties = new ArrayList(livecells.size() * 8);
+        for (int i = 0, len = livecells.size(); i < len; i++) {
+            lc = livecells.get(i);
+            lcx = floor(lc / w);
+            lcy = lc % w;
+            nbs = neighbors(lcx, lcy);
+            count = 0;
+            for (int j = 0, nlen = nbs.length; j < nlen; j++) {
+                nb = nbs[j];
+                if (is_valid_index(nb)) {
+                    empties.add(nb);
+                    if (contains(nb)) {
+                        count++;
+                    }
+                }
+            }
+            if (count == 2 || count == 3) {
+                next_gol.add(lcx, lcy);
+            }
+        }
+        //
+        for (int i = 0, len = empties.size(); i < len; i++) {
+            e = empties.get(i);
+            ex = floor(e / w);
+            ey = e % w;
+            if (count_neighbors(ex, ey) == 3) {
+                next_gol.add(ex, ey);
+            }
+        }
+        return next_gol;
+    }
+
+    void next_() {
+        tick++;
+        if (tick < 60) {
+            return;
+        }
+        n = next();
+        cells = n.cells;
+        livecells = n.livecells;
+        tick = 0;
+    }
+
+    void draw() {
+        noStroke();
+        fill(255);
+        for (int i = 0, len = livecells.size(); i < len; i++) {
+            lc = livecells.get(i);
+            lcx = floor(lc / w);
+            lcy = lc % w;
+            rect(x + lcx * size, y + lcy * size, size, size);
+        }
+    }
+}
+
+/*
+GameOfLife gol = new GameOfLife(0, 0, 10, 10);
+gol.add(2, 1);
+gol.add(2, 2);
+gol.add(2, 3);
+gol.add(2, 4);
+println(gol.livecells.toArray());
+gol = gol.next();
+println(gol.livecells.toArray());
+gol = gol.next();
+println(gol.livecells.toArray());
+*/
