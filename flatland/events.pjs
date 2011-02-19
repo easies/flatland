@@ -46,11 +46,16 @@ void mouseReleased() {
     redraw();
 }
 
-#if DEBUG
 void keyPressed() {
-    println("pressed  " + int(key) + " " + keyCode);
+	#if DEBUG
+		println("pressed  " + int(key) + " " + keyCode);
+	#endif
+	if (key == 'r') {
+		penta.rotate_by(0.1);
+	}
 }
 
+#if DEBUG
 void keyReleased() {
     println("released " + int(key) + " " + keyCode);
 }

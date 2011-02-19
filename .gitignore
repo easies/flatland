@@ -2,3 +2,4 @@ env
 *.py[co]
 *.swp
 flatland/flatland.pjs
+flatland/preload.pjs

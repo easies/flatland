@@ -1,0 +1,62 @@
+/* vim: set ft=processing: */
+
+
+class Map {
+    /* The position of the eye. */
+    float eye_x;
+    float eye_y;
+    PImage img;
+    float scale;
+
+    Map(String imagepath) {
+        eye_x = 0;
+        eye_y = 0;
+        scale = 3.0;
+        img = loadImage(imagepath);
+    }
+
+    /* The bounds. Since `width` and `height` are changable, these are
+     * in a closure. */
+    float min_x() {
+        return width / 2;
+    }
+
+    float min_y() {
+        return height / 2;
+    }
+
+    float max_x() {
+        return scale * img.width - min_x();
+    }
+
+    float max_y() {
+        return scale * img.height - min_y();
+    }
+
+    /**
+     * Moves the eye by the given deltas. If the resulting position is
+     * outside of the bound, the position is corrected.
+     * @param dx The x delta.
+     * @param dy The y delta.
+     */
+    void move_eye(float dx, float dy) {
+        eye_x += dx;
+        eye_y += dy;
+        if (eye_x < min_x()) {
+            eye_x = min_x();
+        } else if (eye_x > max_x()) {
+            eye_x = max_x();
+        }
+        if (eye_y < min_y()) {
+            eye_y = min_y();
+        } else if (eye_y > max_y()) {
+            eye_y = max_y();
+        }
+    }
+
+    void draw() {
+        image(img, min_x() - eye_x, min_y() - eye_y,
+            scale * img.width, scale * img.height);
+        move_eye(2.5, 2.5);
+    }
+}

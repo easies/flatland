@@ -1,0 +1,39 @@
+/* vim: set ft=processing :
+ */
+
+
+class Polygon {
+    float x;
+    float y;
+    float rotation;
+
+    Polygon(float x, float y) {
+        this(x, y, 0.0);
+    }
+
+    Polygon(float x, float y, float rotation) {
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
+    }
+
+    void rotate_by(float angle) {
+        rotation += angle;
+    }
+
+    Array g_vertices(n, side) {
+        // The angle between sides.
+        angle1 = PI * (n - 2) / n;
+        // Law of sines.
+        // The distance from the center to a vertex.
+        center_to_vertex = sin(angle1 / 2) / sin(PI - angle1) * side;
+        // The inner angle
+        C = TWO_PI / n;
+        points = new float[n * 2];
+        for (int i = 0; i < n * 2; i += 2) {
+            points[i] = center_to_vertex * cos(i/2 * C);
+            points[i + 1] = center_to_vertex * sin(i/2 * C);
+        }
+        return points;
+    }
+}

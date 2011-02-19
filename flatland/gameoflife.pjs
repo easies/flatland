@@ -13,14 +13,16 @@ class GameOfLife {
     ArrayList livecells;
     int size;
     int tick;
+	color _color;
 
-    GameOfLife(x, y, w, h) {
+    GameOfLife(x, y, w, h, _color) {
         this.x = x, this.y = y;
         this.w = w, this.h = h;
         cells = new int[w * h];
         livecells = new ArrayList();
         size = 20;
         tick = second();
+		this._color = _color;
     }
 
     void contains(int index) {
@@ -83,7 +85,7 @@ class GameOfLife {
     }
 
     GameOfLife next() {
-        GameOfLife next_gol = new GameOfLife(x, y, w, h);
+        GameOfLife next_gol = new GameOfLife(x, y, w, h, _color);
         ArrayList empties = new ArrayList(livecells.size() * 8);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
@@ -130,7 +132,7 @@ class GameOfLife {
     void draw() {
         _next();
         noStroke();
-        fill(255);
+        fill(_color);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
             lcx = floor(lc / w);
