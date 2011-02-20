@@ -3,8 +3,7 @@
 
 
 class Polygon {
-    float x;
-    float y;
+    PVector location;
     float rotation;
 
     Polygon(float x, float y) {
@@ -12,8 +11,7 @@ class Polygon {
     }
 
     Polygon(float x, float y, float rotation) {
-        this.x = x;
-        this.y = y;
+        location = new PVector(x, y);
         this.rotation = rotation;
     }
 

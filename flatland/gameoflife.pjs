@@ -9,7 +9,7 @@ class GameOfLife {
     float x, y;
     /* width height */
     float w, h;
-    Array cells;
+    int[] cells;
     ArrayList livecells;
     int size;
     int tick;
@@ -30,21 +30,14 @@ class GameOfLife {
     }
 
     void add(int x, int y) {
-        n = x * w + y;
+        add_index(x * w + y);
+    }
+
+    void add_index(int n) {
         if (!cells[n]) {
             cells[n] = 1;
             livecells.add(n);
         }
-    }
-
-    void remove(int x, int y) {
-        n = x * w + y;
-        cells[n] = 0;
-        livecells.remove(n);
-    }
-
-    int get_index(int x, int y) {
-        return x * w + y;
     }
 
     boolean is_valid_index(int index) {
@@ -55,30 +48,25 @@ class GameOfLife {
         return 0 <= x && x < w && 0 <= y && y < h;
     }
 
-    int[] neighbors(int x, int y) {
+    /**
+     * @param n The index.
+     * @returns The array of neighbor's indices.
+     */
+    int[] neighbors(int n) {
         return new int[] {
-            get_index(x - 1, y - 1),
-            get_index(x - 1, y),
-            get_index(x - 1, y + 1),
-            get_index(x, y - 1),
-            get_index(x, y + 1),
-            get_index(x + 1, y - 1),
-            get_index(x + 1, y),
-            get_index(x + 1, y + 1)
-        }
+            n - w - 1, n - w, n - w + 1,
+            n - 1,                n + 1,
+            n + w - 1, n + w, n + w + 1
+        };
     }
 
-    int count_neighbors(int x, int y) {
-        nbs = neighbors(x, y);
-        count = 0;
+    int count_neighbors(int n) {
+        int[] nbs = neighbors(n);
+        int count = 0;
         for (int i = 0, len = nbs.length; i < len; i++) {
-            nb = nbs[i];
-            x = floor(nb / w);
-            y = nb % w;
-            if (is_valid(x, y)) {
-                if (contains(nb)) {
-                    count++;
-                }
+            int nb = nbs[i];
+            if (is_valid_index(nb) && contains(nb)) {
+                count++;
             }
         }
         return count;
@@ -89,37 +77,39 @@ class GameOfLife {
         ArrayList empties = new ArrayList(livecells.size() * 8);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
-            lcx = floor(lc / w);
-            lcy = lc % w;
-            nbs = neighbors(lcx, lcy);
-            count = 0;
+            int[] nbs = neighbors(lc);
+            int count = 0;
+            // Iterate through the neighbors.
             for (int j = 0, nlen = nbs.length; j < nlen; j++) {
-                nb = nbs[j];
-                if (is_valid_index(nb)) {
-                    empties.add(nb);
-                    if (contains(nb)) {
+                n = nbs[j];
+                if (is_valid_index(n)) {
+                    // If the neighbor is a valid cell (i.e. within bounds)
+                    // then it is a candidate to be checked for a spawn.
+                    empties.add(n);
+                    if (contains(n)) {
+                        // This neighbor is alive.
                         count++;
                     }
                 }
             }
+            // Live cells with 2 or 3 neighbors live.
             if (count == 2 || count == 3) {
-                next_gol.add(lcx, lcy);
+                next_gol.add_index(lc);
             }
         }
-        //
+        // Handle new offsprings.
         for (int i = 0, len = empties.size(); i < len; i++) {
             e = empties.get(i);
-            ex = floor(e / w);
-            ey = e % w;
-            if (count_neighbors(ex, ey) == 3) {
-                next_gol.add(ex, ey);
+            // If there are 3 neighbors, the empty cell comes to life.
+            if (count_neighbors(e) == 3) {
+                next_gol.add_index(e);
             }
         }
         return next_gol;
     }
 
     void _next() {
-        s = second();
+        int s = second();
         if (s == tick) {
             return;
         }
@@ -131,13 +121,16 @@ class GameOfLife {
 
     void draw() {
         _next();
+        pushMatrix();
+        translate(x, y);
         noStroke();
         fill(_color);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
             lcx = floor(lc / w);
             lcy = lc % w;
-            rect(x + lcx * size, y + lcy * size, size, size);
+            rect(lcx * size, lcy * size, size, size);
         }
+        popMatrix();
     }
 }

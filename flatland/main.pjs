@@ -5,8 +5,6 @@
 
 
 class Penta extends Polygon {
-    float speed_x;
-    float speed_y;
     float next_x, next_y;
     float control_x, control_y;
     float control1_x, control1_y;
@@ -21,19 +19,19 @@ class Penta extends Polygon {
         pressed = false;
         next_points = new float[0];
         n_current = 0;
-        speed_x = 0, speed_y = 0;
         control_x = 0, control_y = 0;
         next_x = 0, next_y = 0;
         side = 50;
     }
 
     void set_points() {
-        next_points = g_bezier_to_points(x, y, control1_x, control1_y,
+        next_points = g_bezier_to_points(location.x, location.y,
+            control1_x, control1_y,
             control2_x, control2_y, next_x, next_y, 150);
         n_current = 0;
     }
 
-    void move() {
+    void update() {
         pl = next_points.length;
         if (n_current >= pl) {
             n_current = 0;
@@ -41,11 +39,11 @@ class Penta extends Polygon {
             return;
         }
         if (n_current + 2 == pl) {
-            x = next_points[n_current];
-            y = next_points[n_current + 1];
+            location.x = next_points[n_current];
+            location.y = next_points[n_current + 1];
         } else {
-            x = next_points[n_current];
-            y = next_points[n_current + 1];
+            location.x = next_points[n_current];
+            location.y = next_points[n_current + 1];
             // XXX move based on time?
             // Find time elapsed.
             // speed = 30;
@@ -64,18 +62,23 @@ class Penta extends Polygon {
 
     void draw_bezier() {
         // Set the control points
-        control1_x = x + (next_x - x) / 2;
-        control1_y = y + (next_y - y) / 2;
+        control1_x = location.x + (next_x - location.x) / 2;
+        control1_y = location.y + (next_y - location.y) / 2;
         control2_x = next_x - (control_x - next_x)
         control2_y = next_y - (control_y - next_y)
         stroke(0, 255, 0);
         noFill();
-        bezier(x, y, control1_x, control1_y, control2_x, control2_y,
-            next_x, next_y);
+        bezier(location.x, location.y, control1_x, control1_y,
+            control2_x, control2_y, next_x, next_y);
         // Draw the points.
-        stroke(255, 0, 0);
-        points = g_bezier_to_points(x, y, control1_x, control1_y,
-            control2_x, control2_y, next_x, next_y, 40);
+        draw_points();
+    }
+
+    void draw_points() {
+        stroke(#FF0000);
+        points = g_bezier_to_points(location.x, location.y,
+            control1_x, control1_y, control2_x, control2_y,
+            next_x, next_y, 40);
         for (int i = 0; i < points.length; i += 2) {
             point(points[i], points[i + 1]);
         }
@@ -86,10 +89,10 @@ class Penta extends Polygon {
         if (pressed) {
             draw_bezier();
         }
+        pushMatrix();
         stroke(0);
         fill(0);
-        pushMatrix();
-        translate(x, y);
+        translate(location.x, location.y);
         rotate(rotation);
         // Draw the pentagon in strips.
         vs = vertices();
@@ -97,7 +100,7 @@ class Penta extends Polygon {
         triangle(vs[0], vs[1], vs[4], vs[5], vs[8], vs[9]);
         triangle(vs[4], vs[5], vs[6], vs[7], vs[8], vs[9]);
         popMatrix();
-        move();
+        update();
     }
 }
 
