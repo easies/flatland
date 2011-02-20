@@ -34,4 +34,20 @@ class Polygon {
         }
         return points;
     }
+
+    void draw_polygon(n, side, stroke_color, fill_color) {
+        pushMatrix();
+        stroke(stroke_color);
+        fill(fill_color);
+        translate(location.x, location.y);
+        rotate(rotation);
+        // Draw the shape.
+        beginShape();
+        vs = g_vertices(n, side);
+        for (int i = 0, len = vs.length; i < len; i += 2) {
+            vertex(vs[i], vs[i + 1]);
+        }
+        endShape();
+        popMatrix();
+    }
 }

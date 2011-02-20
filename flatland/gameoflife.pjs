@@ -25,6 +25,15 @@ class GameOfLife {
 		this._color = _color;
     }
 
+    /**
+     * @param points An array of pairs of points.
+     */
+    void add_all(int[] points) {
+        for (int i = 0, len = points.length; i < len; i += 2) {
+            add(points[i], points[i + 1]);
+        }
+    }
+
     void contains(int index) {
         return cells[index] == 1;
     }

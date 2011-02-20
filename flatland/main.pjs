@@ -89,23 +89,13 @@ class Penta extends Polygon {
         if (pressed) {
             draw_bezier();
         }
-        pushMatrix();
-        stroke(0);
-        fill(0);
-        translate(location.x, location.y);
-        rotate(rotation);
-        // Draw the pentagon in strips.
-        vs = vertices();
-        triangle(vs[0], vs[1], vs[2], vs[3], vs[4], vs[5]);
-        triangle(vs[0], vs[1], vs[4], vs[5], vs[8], vs[9]);
-        triangle(vs[4], vs[5], vs[6], vs[7], vs[8], vs[9]);
-        popMatrix();
+        draw_polygon(5, side, #FF00FF, #000000);
         update();
     }
 }
 
 penta = new Penta(102, 100);
-gol = new GameOfLife(300, 300, 10, 10, color(#000000));
+gol = new GameOfLife(300, 300, 10, 10, #000000);
 map = new Map("data/map1.png");
 void setup() {
     frameRate(60);
@@ -113,10 +103,11 @@ void setup() {
     fill(255);
     PFont fontA = loadFont("Ubuntu");
     textFont(fontA, 14);
-    gol.add(1, 2);
-    gol.add(2, 2);
-    gol.add(3, 2);
-//  gol.add(4, 2);
+    gol.add_all({
+        1, 2,
+        2, 2,
+        3, 2
+    });
     loop();
 }
 
