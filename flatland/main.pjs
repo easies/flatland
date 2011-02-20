@@ -15,7 +15,7 @@ class Penta extends Polygon {
     int n_current;
 
     Penta(float x, float y) {
-        super(x, y);
+        super(x, y, 0.0, 50);
         pressed = false;
         next_points = new float[0];
         n_current = 0;
@@ -52,21 +52,13 @@ class Penta extends Polygon {
         n_current += 2;
     }
 
-    /**
-     * @return The vertices of the pentagon in an array. i.e.
-     *     [x1, y1, x2, y2, ..., x5, y5]
-     */
-    Array vertices() {
-        return g_vertices(5, side);
-    }
-
     void draw_bezier() {
         // Set the control points
         control1_x = location.x + (next_x - location.x) / 2;
         control1_y = location.y + (next_y - location.y) / 2;
         control2_x = next_x - (control_x - next_x)
         control2_y = next_y - (control_y - next_y)
-        stroke(0, 255, 0);
+        stroke(#00FF00);
         noFill();
         bezier(location.x, location.y, control1_x, control1_y,
             control2_x, control2_y, next_x, next_y);
@@ -89,7 +81,7 @@ class Penta extends Polygon {
         if (pressed) {
             draw_bezier();
         }
-        draw_polygon(5, side, #FF00FF, #000000);
+        draw_polygon(#FF00FF, #000000);
         update();
     }
 }
