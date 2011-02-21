@@ -132,7 +132,7 @@ class GameOfLife {
         _next();
         pushMatrix();
         translate(x, y);
-        noStroke();
+        stroke(_color);
         fill(_color);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);

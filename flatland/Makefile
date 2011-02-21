@@ -1,7 +1,8 @@
 # Helper Makefile to amalgamate the sources.
 
 
-SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs map.pjs polygon.pjs
+SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs map.pjs polygon.pjs\
+	world.pjs
 # cpp strips out comments. -P disables header comments.
 
 all: flatland.pjs preload.pjs

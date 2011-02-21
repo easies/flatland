@@ -1,0 +1,24 @@
+/* vim: set ft=processing : */
+
+
+class World {
+    ArrayList things;
+
+    World() {
+        things = new ArrayList();
+    }
+
+    void add(thing) {
+        things.add(thing);
+    }
+
+    void replace(new_world) {
+        things = new_world.things;
+    }
+
+    void draw() {
+        for (int i = 0, len = things.size(); i < len; i++) {
+            things.get(i).draw();
+        }
+    }
+}

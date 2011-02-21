@@ -11,8 +11,7 @@ void mouseDragged() {
     #if DEBUG
         println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
-    penta.control_x = mouseX;
-    penta.control_y = mouseY;
+    penta.control = new PVector(mouseX, mouseY);
     redraw();
 }
 
@@ -20,15 +19,13 @@ void mouseMoved() {
     #if DEBUG
         println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
-    penta.control_x = mouseX;
-    penta.control_y = mouseY;
+    penta.control = new PVector(mouseX, mouseY);
     redraw();
 }
 
 void mousePressed() {
     penta.pressed = true;
-    penta.next_x = mouseX;
-    penta.next_y = mouseY;
+    penta.next = new PVector(mouseX, mouseY);
     redraw();
     #if DEBUG
         println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
@@ -37,8 +34,7 @@ void mousePressed() {
 
 void mouseReleased() {
     penta.pressed = false;
-    penta.control_x = mouseX;
-    penta.control_y = mouseY;
+    penta.control = new PVector(mouseX, mouseY);
     penta.set_points();
     #if DEBUG
         println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
@@ -48,11 +44,20 @@ void mouseReleased() {
 
 void keyPressed() {
 	#if DEBUG
-		println("pressed  " + int(key) + " " + keyCode);
+		println("pressed  " + key + " " + keyCode);
 	#endif
-	if (key == 'r') {
-		penta.rotate_by(0.1);
-	}
+    switch (char(key)) {
+    case 'R':
+    case 'r':
+        penta.rotate_by(0.1);
+        break;
+    case 'E':
+    case 'e':
+        penta.rotate_by(-0.1);
+        break;
+    default:
+        break;
+    }
 }
 
 #if DEBUG
