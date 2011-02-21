@@ -9,6 +9,13 @@ float b_cubic(t, p1, p2, p3, p4) {
         t * t * t * p4;
 }
 
+PVector b_cubic_vector(t, v1, v2, v3, v4) {
+    PVector v = new PVector();
+    v.x = b_cubic(t, v1.x, v2.x, v3.x, v4.x);
+    v.y = b_cubic(t, v1.y, v2.y, v3.y, v4.y);
+    return v;
+}
+
 /**
  * The x, y arguments are the control points of the bezier line.
  * n is the number points.
@@ -21,4 +28,16 @@ float[] g_bezier_to_points(x1, y1, x2, y2, x3, y3, x4, y4, n) {
         points[2 * i + 1] = b_cubic(i / n, y1, y2, y3, y4);
     }
     return points;
+}
+
+PVector[] g_bezier_to_vectors(v1, v2, v3, v4, n) {
+    PVector[] vectors = new PVector[n + 1];
+    for (int i = 0; i <= n; i++) {
+        vectors[i] = b_cubic_vector(i / n, v1, v2, v3, v4);
+    }
+    for (int i = n; i >= 1; i--) {
+        vectors[i].sub(vectors[i - 1]);
+    }
+    vectors[0] = new PVector(0, 0);
+    return vectors;
 }

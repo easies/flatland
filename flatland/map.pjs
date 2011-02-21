@@ -9,10 +9,18 @@ class Map {
     float scale;
 
     Map(String imagepath) {
-        eye_x = 0;
-        eye_y = 0;
-        scale = 3.0;
+        eye_x = min_x();
+        eye_y = min_y();
+        scale = 1.0;
         img = loadImage(imagepath);
+    }
+
+    int get_width() {
+        return img.width;
+    }
+
+    int get_height() {
+        return img.height;
     }
 
     /* The bounds. Since `width` and `height` are changable, these are
@@ -31,6 +39,10 @@ class Map {
 
     float max_y() {
         return scale * img.height - min_y();
+    }
+
+    PVector left_corner() {
+        return new PVector(eye_x - min_x(), eye_y - min_y());
     }
 
     /**
@@ -57,6 +69,5 @@ class Map {
     void draw() {
         image(img, min_x() - eye_x, min_y() - eye_y,
             scale * img.width, scale * img.height);
-        move_eye(2.5, 2.5);
     }
 }

@@ -1,4 +1,11 @@
 
+.left {
+  float: left;
+}
+
+#content {
+  margin: 0 auto;
+}
 
 canvas {
   border: 1px solid black;

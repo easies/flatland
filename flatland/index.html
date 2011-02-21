@@ -2,18 +2,39 @@
 <html>
 <head>
   <title>Flatland Primer</title>
-  <!--
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
     google.load("jquery", "1");
     google.load("jqueryui", "1");
-  </script>-->
+  </script>
   <link href="./flatland.css" rel="stylesheet">
   <script type="text/javascript" src="./js/processing-1.0.0.js"></script>
+  <script>
+    function getInstance() {
+      return Processing.getInstanceById($('canvas')[0].id);
+    }
+  </script>
+  <script src="map1.js"></script>
 </head>
 <body>
-<div>
-<canvas data-processing-sources="preload.pjs flatland.pjs">Hello?</canvas>
+<div id="content">
+  <div class="left">
+    <h1>Flatland Primer</h1>
+    <canvas data-processing-sources="preload.pjs flatland.pjs"
+        width="800" height="600">
+      You need a browser with canvas support. Try Google Chrome or Firefox.
+    </canvas>
+  </div>
+  <div class="right">
+    <nav>
+      <a href="./doc/">Documentation</a>
+      <a href="./credits.html">Credits</a>
+    </nav>
+    <div>
+      blah
+    </div>
+  </div>
+</div>
 </div>
 </body>
 </html>

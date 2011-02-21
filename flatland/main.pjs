@@ -3,77 +3,111 @@
  *                or http://www.vim.org/scripts/script.php?script_id=2115
  */
 
+World world = new World();
+Map map = new Map("data/map1.png");
+Penta penta = new Penta(map, 10, 10);
+Map1 map1 = new Map1();
 
-class Penta extends Polygon {
+
+class Penta extends PolygonInMap {
     PVector next;
     PVector control;
     PVector control1;
     PVector control2;
     boolean pressed;
-    float[] next_points;
+    PVector next_points;
     int n_current;
     int last_time;
 
-    Penta(float x, float y) {
-        super(x, y, 0.0, 50);
+    Penta(Map map, float x, float y) {
+        super(map, x, y, 0.0, 50);
         pressed = false;
-        next_points = new float[0];
         n_current = 0;
         control = new PVector(0, 0);
         control1 = new PVector(0, 0);
         control2 = new PVector(0, 0);
         next = new PVector(0, 0);
+        next_points = new PVector[0];
         last_time = 1000 * second() + millis();
     }
 
+    void collided(map) {
+        vs = vertices();
+        println("location: " + location);
+        println("screen  : " + screen_location());
+        return (
+            map.in_wall(int(location.x + vs[0]), int(location.y + vs[1])) ||
+            map.in_wall(int(location.x + vs[2]), int(location.y + vs[3])) ||
+            map.in_wall(int(location.x + vs[4]), int(location.y + vs[5])) ||
+            map.in_wall(int(location.x + vs[6]), int(location.y + vs[7])) ||
+            map.in_wall(int(location.x + vs[8]), int(location.y + vs[9])));
+    }
+
     void set_points() {
+        /*
         next_points = g_bezier_to_points(location.x, location.y,
             control1.x, control1.y, control2.x, control2.y,
-            next.x, next.y, 100);
+            next.x, next.y, 100);*/
+        next_points = g_bezier_to_vectors(screen_location(), control1,
+            control2, next, 100);
         n_current = 0;
+    }
+
+    void _reset() {
+        n_current = 0;
+        next_points = new PVector[0];
     }
 
     void update() {
         current = 1000 * second() + millis();
         elapsed = (current - last_time) % 60000;
         last_time = current;
-        pl = next_points.length;
-        if (n_current >= pl) {
-            n_current = 0;
-            next_points = new float[0];
+        if (n_current >= next_points.length) {
+            _reset();
             return;
         }
-        if (n_current + 2 == pl) {
-            location.x = next_points[n_current];
-            location.y = next_points[n_current + 1];
-        } else {
-            location.x = next_points[n_current];
-            location.y = next_points[n_current + 1];
-            // XXX move based on time?
-            // Find time elapsed.
-            // speed = 30;
-            // C = speed / frameRate
+        v = next_points[n_current];
+        n_current += 1;
+        /*
+        println("x: " + v.x + ", y: " + v.y);
+        map_width = map.get_width();
+        map_height = map.get_height();
+        rx = abs(location.x - map_width / 2) / (map_width);
+        ry = abs(location.y - map_height / 2) / (map_height);
+        map.move_eye(v.x * (1 - rx), v.y * (1 - ry));// * (ry - 1));
+        */
+        //move_by(v.x * rx, v.y * ry);
+        map.eye_x = location.x;
+        map.eye_y = location.y;
+        map.move_eye(0, 0);
+        move_by(v.x, v.y);
+        if (collided(map1)) {
+            move_by(-v.x, -v.y);
+            _reset();
+            return;
         }
-        n_current += 2;
+        // map.move_eye(v.x, v.y);
+        // map.move_eye(v.x, v.y);
+        // location.add(v);
     }
 
     void draw_bezier() {
         // Set the control points
-        control1.x = location.x + (next.x - location.x) / 2;
-        control1.y = location.y + (next.y - location.y) / 2;
+        loc = screen_location();
+        control1.x = loc.x + (next.x - loc.x) / 2;
+        control1.y = loc.y + (next.y - loc.y) / 2;
         control2.x = next.x - (control.x - next.x);
         control2.y = next.y - (control.y - next.y);
         stroke(#00FF00);
         noFill();
-        bezier(location.x, location.y, control1.x, control1.y,
+        bezier(loc.x, loc.y, control1.x, control1.y,
             control2.x, control2.y, next.x, next.y);
-        // Draw the points.
-        draw_points();
     }
 
     void draw_points() {
         stroke(#FF0000);
-        points = g_bezier_to_points(location.x, location.y,
+        loc = screen_location();
+        points = g_bezier_to_points(loc.x, loc.y,
             control1.x, control1.y, control2.x, control2.y,
             next.x, next.y, 40);
         for (int i = 0; i < points.length; i += 2) {
@@ -82,24 +116,23 @@ class Penta extends Polygon {
     }
 
     void draw() {
-        // Set border and fill colors to white.
         if (pressed) {
+            // Draw the curve.
             draw_bezier();
+            // Draw the points.
+            draw_points();
         }
         draw_polygon(#FF00FF, #000000);
         update();
     }
 }
 
-penta = new Penta(102, 100);
-world = new World();
 void setup() {
     frameRate(60);
     size(800, 600);
     PFont fontA = loadFont("Ubuntu");
     textFont(fontA, 14);
     gol = new GameOfLife(300, 300, 10, 10, #000000);
-    map = new Map("data/map1.png");
     // PShape sv = loadShape("x.svg");
     gol.add_all({
         1, 2,
@@ -116,6 +149,7 @@ void setup() {
 void draw() {
     background(0);
     world.draw();
+//    map.setupWalls();
     stroke(0);
     fill(0);
     // shape(sv, 0, 0, 400, 400);

@@ -19,6 +19,11 @@ class Polygon {
         n_sides = 5;
     }
 
+    void move_by(float dx, float dy) {
+        location.x += dx;
+        location.y += dy;
+    }
+
     void rotate_by(float angle) {
         rotation += angle;
     }
@@ -39,19 +44,43 @@ class Polygon {
         return points;
     }
 
-    void draw_polygon(color stroke_color, color fill_color) {
-        vs = vertices();
+    static void _draw_polygon(PVector location, float rotation, Array vertices,
+        color stroke_color, color fill_color) {
         pushMatrix();
         stroke(stroke_color);
         fill(fill_color);
         translate(location.x, location.y);
         rotate(rotation);
-        // Draw the shape.
         beginShape();
-        for (int i = 0, len = vs.length; i < len; i += 2) {
-            vertex(vs[i], vs[i + 1]);
+        for (int i = 0, len = vertices.length; i < len; i += 2) {
+            vertex(vertices[i], vertices[i + 1]);
         }
         endShape(CLOSE);
         popMatrix();
+    }
+
+    void draw_polygon(color stroke_c, color fill_c) {
+        _draw_polygon(location, rotation, vertices(), stroke_c, fill_c);
+    }
+}
+
+
+class PolygonInMap extends Polygon {
+    Map map;
+
+    PolygonInMap(Map map, float x, float y, float rotation, int side) {
+        super(x, y, rotation, side);
+        this.map = map;
+    }
+
+    PVector screen_location() {
+        PVector screen_location = new PVector(location.x, location.y);
+        screen_location.sub(map.left_corner());
+        return screen_location;
+    }
+
+    void draw_polygon(color stroke_c, color fill_c) {
+        vs = vertices();
+        _draw_polygon(screen_location(), rotation, vs, stroke_c, fill_c);
     }
 }
