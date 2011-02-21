@@ -7,12 +7,29 @@ class Map {
     float eye_y;
     PImage img;
     float scale;
+    Object walls;
+    Object next_level;
 
-    Map(String imagepath) {
+    Map(String imagepath, Object walls, next_level) {
         eye_x = min_x();
         eye_y = min_y();
         scale = 1.0;
         img = loadImage(imagepath);
+        this.walls = walls;
+        this.next_level = next_level;
+    }
+
+    boolean reached_end(vertices) {
+        for (int i = 0, len = vertices.length; i < len; i += 2) {
+            if (!walls.reached_end(int(vertices[i]), int(vertices[i + 1]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    boolean in_wall(int x, int y) {
+        return walls.in_wall(x, y);
     }
 
     int get_width() {

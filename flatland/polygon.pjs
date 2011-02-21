@@ -25,7 +25,7 @@ class Polygon {
     }
 
     void rotate_by(float angle) {
-        rotation += angle;
+        rotation = (rotation + angle) % TWO_PI;
     }
 
     Array vertices() {
@@ -82,5 +82,21 @@ class PolygonInMap extends Polygon {
     void draw_polygon(color stroke_c, color fill_c) {
         vs = vertices();
         _draw_polygon(screen_location(), rotation, vs, stroke_c, fill_c);
+    }
+
+    Array l_vertices() {
+        // The angle between sides.
+        angle1 = PI * (n_sides - 2) / n_sides;
+        // Law of sines.
+        // The distance from the center to a vertex.
+        center_to_vertex = sin(angle1 / 2) / sin(PI - angle1) * side_length;
+        // Half of the inner angle
+        C = PI / n_sides;
+        points = new float[n_sides * 2];
+        for (int i = 0, len = n_sides * 2; i < len; i += 2) {
+            points[i] = location.x + center_to_vertex * cos(i * C + rotation);
+            points[i + 1] = location.y + center_to_vertex * sin(i * C + rotation);
+        }
+        return points;
     }
 }
