@@ -23,15 +23,15 @@ class Penta extends PolygonInMap {
     }
 
     boolean collided() {
-        vs = vertices();
+        vs = l_vertices();
         // println("location: " + location);
         // println("screen  : " + screen_location());
         return (
-            map.in_wall(int(location.x + vs[0]), int(location.y + vs[1])) ||
-            map.in_wall(int(location.x + vs[2]), int(location.y + vs[3])) ||
-            map.in_wall(int(location.x + vs[4]), int(location.y + vs[5])) ||
-            map.in_wall(int(location.x + vs[6]), int(location.y + vs[7])) ||
-            map.in_wall(int(location.x + vs[8]), int(location.y + vs[9])));
+            map.in_wall(int(vs[0]), int(vs[1])) ||
+            map.in_wall(int(vs[2]), int(vs[3])) ||
+            map.in_wall(int(vs[4]), int(vs[5])) ||
+            map.in_wall(int(vs[6]), int(vs[7])) ||
+            map.in_wall(int(vs[8]), int(vs[9])));
     }
 
     void reached_end() {

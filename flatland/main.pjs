@@ -18,7 +18,7 @@ void setup_world1() {
 void setup_world2() {
     world = new World();
     map = new Map("data/map2.png", new Map2(), null);
-    penta = new Penta(map, 50, 50);
+    penta = new Penta(map, 100, 100);
     gol = new GameOfLife(300, 300, 10, 10, #000000);
     gol.add_all({
         1, 2,
