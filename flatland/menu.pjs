@@ -4,6 +4,7 @@ class Button {
     int x, y, w, h;
     String s;
     int font_size;
+    color fill_color;
 
     public Button(int x, int y, int w, int h, String s, int font_size) {
         this.x = x;
@@ -12,12 +13,13 @@ class Button {
         this.h = h;
         this.s = s;
         this.font_size = font_size;
+        this.fill_color = color(0, 0, 0, 0);
     }
 
     void draw() {
         pushMatrix();
         stroke(255);
-        noFill();
+        fill(fill_color);
         rect(x, y, w, h);
         stroke(255);
         fill(255);
@@ -32,6 +34,14 @@ class Button {
     }
 
     void on_click() {}
+
+    void on_press() {
+        this.fill_color = #CCCCCC;
+    }
+
+    void on_release() {
+        this.fill_color = color(0, 0, 0, 0);
+    }
 }
 
 
@@ -77,6 +87,26 @@ class GenericMenuWorld extends World {
                 thing.on_click();
                 cursor(ARROW);
                 return;
+            }
+        }
+    }
+
+    void mousePressed() {
+        for (int i = 0, len = things.size(); i < len; i++) {
+            thing = things.get(i);
+            if (thing.is_within && thing.on_press &&
+                thing.is_within(mouseX, mouseY)) {
+                thing.on_press();
+                return;
+            }
+        }
+    }
+
+    void mouseReleased() {
+        for (int i = 0, len = things.size(); i < len; i++) {
+            thing = things.get(i);
+            if (thing.on_release) {
+                thing.on_release();
             }
         }
     }
