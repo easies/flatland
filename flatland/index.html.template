@@ -14,8 +14,7 @@
       return Processing.getInstanceById($('canvas')[0].id);
     }
   </script>
-  <script src="map1.js"></script>
-  <script src="map2.js"></script>
+{{{scripts}}}
 </head>
 <body>
 <div id="content">

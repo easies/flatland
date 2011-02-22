@@ -4,3 +4,4 @@ env
 flatland/flatland.pjs
 flatland/preload.pjs
 flatland/map*.js
+flatland/index.html
