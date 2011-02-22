@@ -5,10 +5,12 @@ SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs map.pjs polygon.pjs\
 	world.pjs penta.pjs menu.pjs
 # cpp strips out comments. -P disables header comments.
 
+python = /usr/bin/python
+
 all: flatland.pjs preload.pjs map1.js map2.js
 
 %.js: data/%.png
-	python preprocessor/map.py $< > $@
+	$(python) preprocessor/map.py $< > $@
 
 preload.pjs:
 	./generate_preload.sh > preload.pjs
