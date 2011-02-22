@@ -2,6 +2,9 @@
  */
 
 
+/**
+ * A regular polygon.
+ */
 class Polygon {
     PVector location;
     float rotation;
@@ -19,11 +22,20 @@ class Polygon {
         n_sides = 5;
     }
 
+    /**
+     * Moves the polygon by the given deltas.
+     * @param dx The delta for x-coordinate.
+     * @param dy The delta for y-coordinate.
+     */
     void move_by(float dx, float dy) {
         location.x += dx;
         location.y += dy;
     }
 
+    /**
+     * Rotates the polygon by the given angle.
+     * @param angle The angle to rotate by.
+     */
     void rotate_by(float angle) {
         rotation = (rotation + angle) % TWO_PI;
     }
@@ -73,6 +85,9 @@ class PolygonInMap extends Polygon {
         this.map = map;
     }
 
+    /**
+     * @returns The vector of the screen location (of this polygon in a map).
+     */
     PVector screen_location() {
         PVector screen_location = new PVector(location.x, location.y);
         screen_location.sub(map.left_corner());

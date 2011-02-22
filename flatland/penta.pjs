@@ -1,10 +1,15 @@
 /* vim: set ft=processing : */
 
+/**
+ * The pentagon, our main character.
+ */
 class Penta extends PolygonInMap {
+    /** vectors for bezier */
     PVector next;
     PVector control;
     PVector control1;
     PVector control2;
+    /** flag when the mouse is pressed. */
     boolean pressed;
     PVector next_points;
     int n_current;
@@ -24,8 +29,6 @@ class Penta extends PolygonInMap {
 
     boolean collided() {
         vs = l_vertices();
-        // println("location: " + location);
-        // println("screen  : " + screen_location());
         return (
             map.in_wall(int(vs[0]), int(vs[1])) ||
             map.in_wall(int(vs[2]), int(vs[3])) ||
@@ -42,19 +45,33 @@ class Penta extends PolygonInMap {
         }
     }
 
+    /**
+     * Set the next movement.
+     */
     void set_points() {
-        /*
-        next_points = g_bezier_to_points(location.x, location.y,
-            control1.x, control1.y, control2.x, control2.y,
-            next.x, next.y, 100);*/
         next_points = g_bezier_to_vectors(screen_location(), control1,
             control2, next, 100);
         n_current = 0;
     }
 
+    /**
+     * Cancel the movement.
+     */
     void _reset() {
         n_current = 0;
         next_points = new PVector[0];
+    }
+
+    void set_collision_reaction() {
+        save = next_points.slice(n_current - 1);
+        for (int i = 0, len = save.length; i < len; i++) {
+            v = save[i];
+            v_opposite = new PVector(-v.x, -v.y);
+            v_opposite.div(2);
+            save[i] = v_opposite;
+        }
+        next_points = save;
+        n_current = 0;
     }
 
     void update() {
@@ -67,28 +84,21 @@ class Penta extends PolygonInMap {
         }
         v = next_points[n_current];
         n_current += 1;
-        /*
-        println("x: " + v.x + ", y: " + v.y);
-        map_width = map.get_width();
-        map_height = map.get_height();
-        rx = abs(location.x - map_width / 2) / (map_width);
-        ry = abs(location.y - map_height / 2) / (map_height);
-        map.move_eye(v.x * (1 - rx), v.y * (1 - ry));// * (ry - 1));
-        */
-        //move_by(v.x * rx, v.y * ry);
+        // Set the "eye" of the map to the pentagon.
         map.eye_x = location.x;
         map.eye_y = location.y;
+        // Do bounds checking.
         map.move_eye(0, 0);
+        // Move the actual pentagon.
         move_by(v.x, v.y);
+        // Check if we reached the end of the level.
         reached_end();
+        // Check if we have collided with a wall.
         if (collided()) {
             move_by(-v.x, -v.y);
-            _reset();
+            set_collision_reaction();
             return;
         }
-        // map.move_eye(v.x, v.y);
-        // map.move_eye(v.x, v.y);
-        // location.add(v);
     }
 
     void draw_bezier() {

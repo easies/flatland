@@ -75,6 +75,7 @@ class GenericMenuWorld extends World {
             thing = things.get(i);
             if (thing.is_within && thing.is_within(mouseX, mouseY)) {
                 thing.on_click();
+                cursor(ARROW);
                 return;
             }
         }
