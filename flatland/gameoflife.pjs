@@ -1,9 +1,11 @@
 /* vim: set ft=processing : */
 
 /*
- * 1. Every live cell with two or three neighbors survives.
- * 2. Every live cell with four or more neighbors dies.
- * 3. Every empty cell with three neighbors gets "birthed".
+ * Conway's Game of Life
+ * 1. Live cells with two or three neighbors survive.
+ * 2. The other live cells die (x < 2 or x >= 4 neighbors).
+ * 3. Empty cells with three neighbors gets "birthed".
+ * Referenced: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
 class GameOfLife {
     float x, y;
