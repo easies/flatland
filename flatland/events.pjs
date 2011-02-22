@@ -1,71 +1,59 @@
 /* vim: set ft=processing : */
 
+/* Global event handlers. */
 
 void mouseClicked() {
     #if DEBUG
         println("clicked   " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
+    world.mouseClicked();
 }
 
 void mouseDragged() {
     #if DEBUG
         println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
-    penta.control = new PVector(mouseX, mouseY);
-    redraw();
+    world.mouseDragged();
 }
 
 void mouseMoved() {
     #if DEBUG
         println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
-    penta.control = new PVector(mouseX, mouseY);
-    redraw();
+    world.mouseMoved();
 }
 
 void mousePressed() {
-    penta.pressed = true;
-    penta.next = new PVector(mouseX, mouseY);
-    redraw();
     #if DEBUG
         println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
+    world.mousePressed();
 }
 
 void mouseReleased() {
-    penta.pressed = false;
-    penta.control = new PVector(mouseX, mouseY);
-    penta.set_points();
     #if DEBUG
         println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
     #endif
-    redraw();
+    world.mouseReleased();
 }
 
 void keyPressed() {
 	#if DEBUG
 		println("pressed  " + key + " " + keyCode);
 	#endif
-    switch (char(key)) {
-    case 'R':
-    case 'r':
-        penta.rotate_by(0.1);
-        break;
-    case 'E':
-    case 'e':
-        penta.rotate_by(-0.1);
-        break;
-    default:
-        break;
-    }
+    world.keyPressed();
 }
 
-#if DEBUG
 void keyReleased() {
-    println("released " + int(key) + " " + keyCode);
+    #if DEBUG
+        println("released " + int(key) + " " + keyCode);
+    #endif
+    world.keyReleased();
 }
 
 void keyTyped() {
-    println("typed    " + int(key) + " " + keyCode);
+    #if DEBUG
+        println("typed    " + int(key) + " " + keyCode);
+    #endif
+    world.keyTyped();
 }
-#endif

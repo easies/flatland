@@ -1,15 +1,32 @@
 /* vim: set ft=processing : */
+/* Bezier curve handling functions. */
 
-// The parametric function
-// B(t) = (1-t)^3(P1) + 3(1-t)^2(t)(P2) + 3(1-t)(t^2)(P3) + t^3(P4)
-float b_cubic(t, p1, p2, p3, p4) {
+/**
+ * The parametric function
+ * B(t) = (1-t)^3(P1) + 3(1-t)^2(t)(P2) + 3(1-t)(t^2)(P3) + t^3(P4)
+ * @param t The parametricized number [0,1].
+ * @param p1
+ * @param p2
+ * @param p3
+ * @param p4
+ */
+float b_cubic(float t, float p1, float p2, float p3, float p4) {
     return pow((1 - t), 3) * p1 +
         3 * pow((1 - t), 2) * t * p2 +
         3 * (1 - t) * t * t * p3 +
         t * t * t * p4;
 }
 
-PVector b_cubic_vector(t, v1, v2, v3, v4) {
+/**
+ * Same thing as above (cubic parametric), but with vectors.
+ * @param t The parametricized number [0,1].
+ * @param v1 The start vector.
+ * @param v2 The first control vector.
+ * @param v3 The second control vector.
+ * @param v4 The end vector.
+ */
+PVector b_cubic_vector(float t, PVector v1, PVector v2, PVector v3,
+        PVector v4) {
     PVector v = new PVector();
     v.x = b_cubic(t, v1.x, v2.x, v3.x, v4.x);
     v.y = b_cubic(t, v1.y, v2.y, v3.y, v4.y);
@@ -30,6 +47,15 @@ float[] g_bezier_to_points(x1, y1, x2, y2, x3, y3, x4, y4, n) {
     return points;
 }
 
+/**
+ * @param v1
+ * @param v2
+ * @param v3
+ * @param v3
+ * @param n The number of intermediate points.
+ * @return An array of vectors that represent the deltas of the previous
+ *     point.
+ */
 PVector[] g_bezier_to_vectors(v1, v2, v3, v4, n) {
     PVector[] vectors = new PVector[n + 1];
     for (int i = 0; i <= n; i++) {

@@ -6,9 +6,15 @@
 World world;
 Map map;
 Penta penta;
+PFont default_font = loadFont("Ubuntu");
+boolean fps_on = false;
+
+void setup_menu() {
+    world = new MenuWorld();
+}
 
 void setup_world1() {
-    world = new World();
+    world = new PentaWorld();
     map = new Map("data/map1.png", new Map1(), setup_world2);
     penta = new Penta(map, 50, 50);
     world.add(map);
@@ -16,7 +22,7 @@ void setup_world1() {
 }
 
 void setup_world2() {
-    world = new World();
+    world = new PentaWorld();
     map = new Map("data/map2.png", new Map2(), null);
     penta = new Penta(map, 100, 100);
     gol = new GameOfLife(300, 300, 10, 10, #000000);
@@ -33,17 +39,25 @@ void setup_world2() {
 void setup() {
     frameRate(60);
     size(800, 600);
-    PFont fontA = loadFont("Ubuntu");
-    textFont(fontA, 14);
-    setup_world1();
+    textFont(default_font, 14);
     loop();
+    setup_menu();
 }
 
 void draw() {
     background(0);
     world.draw();
+    if (fps_on) {
+        draw_fps();
+    }
+}
+
+void draw_fps() {
+    // Draw Frames per second on bottom left corner.
+    stroke(255);
+    fill(255);
+    rect(0, height - 14, 200, 14);
     stroke(0);
     fill(0);
-    // shape(sv, 0, 0, 400, 400);
     text("fps: " + frameRate, 0, height);
 }

@@ -2,7 +2,7 @@
 
 
 SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs map.pjs polygon.pjs\
-	world.pjs penta.pjs
+	world.pjs penta.pjs menu.pjs
 # cpp strips out comments. -P disables header comments.
 
 all: flatland.pjs preload.pjs map1.js map2.js
@@ -22,5 +22,7 @@ flatland.pjs: $(SOURCES)
 clean:
 	$(RM) flatland.pjs preload.pjs
 
+clean-all: clean
+	$(RM) map*.js
 
-.PHONY = all clean
+.PHONY = all clean clean-all debug

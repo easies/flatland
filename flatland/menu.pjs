@@ -1,0 +1,145 @@
+/* vim: set ft=processing : */
+
+class Button {
+    int x, y, w, h;
+    String s;
+    int font_size;
+
+    public Button(int x, int y, int w, int h, String s, int font_size) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.s = s;
+        this.font_size = font_size;
+    }
+
+    void draw() {
+        pushMatrix();
+        stroke(255);
+        noFill();
+        rect(x, y, w, h);
+        stroke(255);
+        fill(255);
+        textSize(font_size);
+        text(s, x, y + font_size);
+        popMatrix();
+    }
+
+    boolean is_within(int the_x, int the_y) {
+        return (x <= the_x && the_x <= x + w &&
+            y <= the_y && the_y <= y + h);
+    }
+
+    void on_click() {}
+}
+
+
+class PlayButton extends Button {
+    PlayButton(int x, int y, int w, int h, String s, int fs) {
+        super(x, y, w, h, s, fs);
+    }
+    void on_click() {
+        setup_world1();
+    }
+}
+
+class OptionButton extends Button {
+    OptionButton(int x, int y, int w, int h, String s, int fs) {
+        super(x, y, w, h, s, fs);
+    }
+    void on_click() {
+        world = new OptionWorld();
+    }
+}
+
+class GenericMenuWorld extends World {
+    GenericMenuWorld() {
+        super();
+    }
+
+    /* Check for hovering. */
+    void mouseMoved() {
+        for (int i = 0, len = things.size(); i < len; i++) {
+            thing = things.get(i);
+            if (thing.is_within && thing.is_within(mouseX, mouseY)) {
+                cursor(HAND);
+                return;
+            }
+        }
+        cursor(ARROW);
+    }
+
+    void mouseClicked() {
+        for (int i = 0, len = things.size(); i < len; i++) {
+            thing = things.get(i);
+            if (thing.is_within && thing.is_within(mouseX, mouseY)) {
+                thing.on_click();
+                return;
+            }
+        }
+    }
+}
+
+class MenuWorld extends GenericMenuWorld {
+    MenuWorld() {
+        super();
+        menux = width / 2;
+        things.add(new PlayButton(menux, height / 2, 150, 40, "Play!", 30));
+        things.add(new OptionButton(menux, height / 2 + 50, 150, 40, "Options", 30));
+    }
+
+    void draw() {
+        pushMatrix();
+        stroke(255);
+        fill(255);
+        textSize(60);
+        text("Flatland Primer", 200, 200);
+        popMatrix();
+        super.draw();
+    }
+}
+
+class FPSButton extends Button {
+    FPSButton(int x, int y, int w, int h, int fs) {
+        super(x, y, w, h, fps_on ? "fps = on" : "fps = off", fs);
+    }
+
+    String fps_string() {
+        return fps_on ? "fps = on" : "fps = off";
+    }
+
+    void on_click() {
+        // Flip fps.
+        fps_on = !fps_on;
+        this.s = fps_string();
+    }
+}
+
+class BackToMainMenuButton extends Button {
+    BackToMainMenuButton(int x, int y, int w, int h, String s, int fs) {
+        super(x, y, w, h, s, fs);
+    }
+
+    void on_click() {
+        setup_menu();
+    }
+}
+
+class OptionWorld extends GenericMenuWorld {
+    OptionWorld() {
+        super();
+        things.add(new FPSButton(width / 2, height / 2, 150, 40, 30));
+        things.add(new BackToMainMenuButton(width / 2, height / 2 + 50, 150, 40, "back", 30));
+    }
+
+    void draw() {
+        pushMatrix();
+        stroke(255);
+        fill(255);
+        textSize(60);
+        text("Options", 200, 200);
+        popMatrix();
+        super.draw();
+    }
+}

@@ -21,4 +21,56 @@ class World {
             things.get(i).draw();
         }
     }
+
+    /* Event handlers.
+     * These are hooked to the global event handlers in events.pjs
+     */
+    void mouseClicked() {}
+    void mouseDragged() {}
+    void mouseMoved() {}
+    void mousePressed() {}
+    void mouseReleased() {}
+    void keyPressed() {}
+    void keyReleased() {}
+    void keyTyped() {}
+}
+
+class PentaWorld extends World {
+    void mouseDragged() {
+        penta.control = new PVector(mouseX, mouseY);
+        redraw();
+    }
+
+    void mouseMoved() {
+        penta.control = new PVector(mouseX, mouseY);
+        redraw();
+    }
+
+    void mousePressed() {
+        penta.pressed = true;
+        penta.next = new PVector(mouseX, mouseY);
+        redraw();
+    }
+
+    void mouseReleased() {
+        penta.pressed = false;
+        penta.control = new PVector(mouseX, mouseY);
+        penta.set_points();
+        redraw();
+    }
+
+    void keyPressed() {
+        switch (char(key)) {
+        case 'R':
+        case 'r':
+            penta.rotate_by(0.1);
+            break;
+        case 'E':
+        case 'e':
+            penta.rotate_by(-0.1);
+            break;
+        default:
+            break;
+        }
+    }
 }
