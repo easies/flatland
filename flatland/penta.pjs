@@ -85,9 +85,9 @@ class Penta extends PolygonInMap implements Drawable {
      * Update the state of the pentagon.
      */
     void update() {
-        current = 1000 * second() + millis();
-        elapsed = (current - last_time) % 60000;
-        last_time = current;
+        // current = 1000 * second() + millis();
+        // elapsed = (current - last_time) % 60000;
+        // last_time = current;
         if (n_current >= next_points.length) {
             _reset();
             return;

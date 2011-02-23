@@ -52,6 +52,21 @@ public class GameOfLife implements Drawable {
         add_index(x * w + y);
     }
 
+    int contains_point(float px, float py) {
+        float dx = px - x;
+        float dy = py - y;
+        if (dx < 0 || dy < 0) {
+            return -1;
+        }
+        cx = floor(dx / size);
+        cy = floor(dy / size);
+        index = cx * w + cy;
+        if (is_valid(cx, cy) && contains(index)) {
+            return index;
+        }
+        return -1;
+    }
+
     /**
      * @param n The index of the live cell to add.
      */
