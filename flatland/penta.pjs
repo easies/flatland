@@ -45,6 +45,13 @@ class Penta extends PolygonInMap implements Drawable {
         }
     }
 
+    void rotate_by(float angle) {
+        super.rotate_by(angle);
+        if (collided()) {
+            rotation -= angle;
+        }
+    }
+
     /**
      * Set the next movement.
      */

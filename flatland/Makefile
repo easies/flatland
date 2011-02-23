@@ -12,7 +12,7 @@ all: flatland.pjs preload.pjs map1.js map2.js index.html
 %.js: data/%.png
 	$(python) preprocessor/map.py $< > $@
 
-index.html: $(JS_MAPS)
+index.html: $(JS_MAPS) index.html.template
 	$(python) preprocessor/generate_index.py $(JS_MAPS) >$@
 
 preload.pjs:

@@ -4,7 +4,7 @@ import sys
 from PIL import Image
 
 
-def blah(out, im, color):
+def create_predicate(out, im, color):
     width, height = im.size
     out.write('switch (x) {\n')
     for x in range(0, width):
@@ -29,11 +29,11 @@ def blah(out, im, color):
 def preprocess(out, im, name):
     out.write('var %s = function () { return this; };\n' % name)
     out.write('%s.prototype.in_wall = function(x, y) {\n' % name)
-    blah(out, im, (0, 0, 0))
+    create_predicate(out, im, (0, 0, 0))
     out.write('};\n')
     # end
     out.write('%s.prototype.reached_end = function(x, y) {\n' % name)
-    blah(out, im, (0x86, 0x83, 0xFF))
+    create_predicate(out, im, (0x86, 0x83, 0xFF))
     out.write('};\n')
 
 
