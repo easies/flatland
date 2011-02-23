@@ -1,8 +1,8 @@
 /* vim: set ft=processing: */
 
 
-class Map {
-    /* The position of the eye. */
+public class Map implements Drawable {
+    /** The position of the eye. This is the center of the screen. */
     float eye_x;
     float eye_y;
     PImage img;
@@ -10,6 +10,11 @@ class Map {
     Object walls;
     Object next_level;
 
+    /**
+     * @param imagepath The path to the image.
+     * @param walls The object carrying the collision functions.
+     * @param next_level The next world.
+     */
     Map(String imagepath, Object walls, next_level) {
         eye_x = min_x();
         eye_y = min_y();

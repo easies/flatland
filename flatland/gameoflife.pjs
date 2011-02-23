@@ -7,7 +7,7 @@
  * 3. Empty cells with three neighbors gets "birthed".
  * Referenced: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
-class GameOfLife {
+public class GameOfLife implements Drawable {
     float x, y;
     /* width height */
     float w, h;
@@ -36,14 +36,25 @@ class GameOfLife {
         }
     }
 
+    /**
+     * @param index
+     * @returns true if the cell at the index is alive.
+     */
     void contains(int index) {
         return cells[index] == 1;
     }
 
+    /**
+     * @param x The x coordinate of the live cell.
+     * @param y The y coordinate of the live cell.
+     */
     void add(int x, int y) {
         add_index(x * w + y);
     }
 
+    /**
+     * @param n The index of the live cell to add.
+     */
     void add_index(int n) {
         if (!cells[n]) {
             cells[n] = 1;
@@ -83,6 +94,9 @@ class GameOfLife {
         return count;
     }
 
+    /**
+     * @returns The next iteration of this game of life.
+     */
     GameOfLife next() {
         GameOfLife next_gol = new GameOfLife(x, y, w, h, _color);
         ArrayList empties = new ArrayList(livecells.size() * 8);
@@ -119,15 +133,20 @@ class GameOfLife {
         return next_gol;
     }
 
+    /**
+     * The "side-effect" version of next.
+     */
     void _next() {
         int s = second();
         if (s == tick) {
             return;
         }
         tick = s;
-        n = next();
-        cells = n.cells;
-        livecells = n.livecells;
+        // Get the next iteration.
+        next_gol = next();
+        // Copy the data over.
+        cells = next_gol.cells;
+        livecells = next_gol.livecells;
     }
 
     void draw() {

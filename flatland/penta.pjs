@@ -3,7 +3,7 @@
 /**
  * The pentagon, our main character.
  */
-class Penta extends PolygonInMap {
+class Penta extends PolygonInMap implements Drawable {
     /** vectors for bezier */
     PVector next;
     PVector control;

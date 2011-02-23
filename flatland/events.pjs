@@ -2,58 +2,66 @@
 
 /* Global event handlers. */
 
+void _print_mouse(event) {
+    println(event + " (" + mouseX + ", " + mouseY + ") " + mouseButton);
+}
+
 void mouseClicked() {
-    #if DEBUG
-        println("clicked   " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    #endif
+    if (debug) {
+        _print_mouse("clicked");
+    }
     world.mouseClicked();
 }
 
 void mouseDragged() {
-    #if DEBUG
-        println("dragged" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    #endif
+    if (debug) {
+        _print_mouse("dragged");
+    }
     world.mouseDragged();
 }
 
 void mouseMoved() {
-    #if DEBUG
-        println("moved  " + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    #endif
+    if (debug) {
+        _print_mouse("moved");
+    }
     world.mouseMoved();
 }
 
 void mousePressed() {
-    #if DEBUG
-        println("pressed" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    #endif
+    if (debug) {
+        _print_mouse("pressed");
+    }
     world.mousePressed();
 }
 
 void mouseReleased() {
-    #if DEBUG
-        println("released" + "(" + mouseX + ", " + mouseY + ")" + mouseButton);
-    #endif
+    if (debug) {
+        _print_mouse("released");
+    }
     world.mouseReleased();
 }
 
+void _print_key(event) {
+    println(event + " " + key + " " + keyCode);
+}
+
 void keyPressed() {
-	#if DEBUG
-		println("pressed  " + key + " " + keyCode);
-	#endif
+	if (debug) {
+        _print_key("pressed");
+	}
     world.keyPressed();
 }
 
 void keyReleased() {
-    #if DEBUG
-        println("released " + int(key) + " " + keyCode);
-    #endif
+    if (debug) {
+        _print_key("released");
+    }
     world.keyReleased();
 }
 
 void keyTyped() {
-    #if DEBUG
-        println("typed    " + int(key) + " " + keyCode);
-    #endif
+    if (debug) {
+        _print_key("typed");
+    }
     world.keyTyped();
 }
