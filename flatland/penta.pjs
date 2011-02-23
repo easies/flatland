@@ -14,6 +14,7 @@ class Penta extends PolygonInMap implements Drawable {
     PVector next_points;
     int n_current;
     int last_time;
+    float star_animation = 0.0;
 
     Penta(Map map, float x, float y) {
         super(map, x, y, 0.0, 50);
@@ -135,6 +136,32 @@ class Penta extends PolygonInMap implements Drawable {
         }
     }
 
+    Array star_vertices() {
+        vs = vertices();
+        midpoints = new float[vs.length];
+        for (int i = 0, len = vs.length; i < len; i++) {
+            midpoints[i] = vs[i] + (vs[(i+12) % len] - vs[i]) / 2;
+        }
+        return concat(vs, midpoints);
+    }
+
+    void draw_star() {
+        vs = star_vertices();
+        loc = screen_location();
+        pushMatrix();
+        translate(loc.x, loc.y);
+        rotate(rotation);
+        fill(#FFCC00);
+        stroke(#FFCC00);
+        if (debug) {
+            for (int i = 0, len = vs.length; i < len; i += 2) {
+                rect(vs[i] - 2, vs[i + 1] - 2, 4, 4);
+            }
+        }
+
+        popMatrix();
+    }
+
     void draw() {
         if (pressed) {
             // Draw the curve.
@@ -143,6 +170,8 @@ class Penta extends PolygonInMap implements Drawable {
             draw_points();
         }
         draw_polygon(#FF00FF, #000000);
+        // TODO
+        draw_star();
         update();
     }
 }
