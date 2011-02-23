@@ -3,9 +3,9 @@
  *                or http://www.vim.org/scripts/script.php?script_id=2115
  */
 
-World world;
-Map map;
+IWorld world;
 Penta penta;
+
 PFont default_font = loadFont("Ubuntu");
 /* Show FPS flag */
 boolean fps_on = false;

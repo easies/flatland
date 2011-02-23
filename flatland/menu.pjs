@@ -3,7 +3,7 @@
 /**
  * A button element.
  */
-class Button {
+class Button implements Drawable {
     /* x, y - coordinates
      * w - width
      * h - height */

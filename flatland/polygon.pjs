@@ -77,6 +77,9 @@ class Polygon {
 }
 
 
+/**
+ * A polygon living inside a map.
+ */
 class PolygonInMap extends Polygon {
     Map map;
 
@@ -94,11 +97,18 @@ class PolygonInMap extends Polygon {
         return screen_location;
     }
 
+    /**
+     * Draws the polygon within the map.
+     */
     void draw_polygon(color stroke_c, color fill_c) {
         vs = vertices();
         _draw_polygon(screen_location(), rotation, vs, stroke_c, fill_c);
     }
 
+    /**
+     * @returns the vertices' locations in reference to the map in a linear
+     * array.
+     */
     Array l_vertices() {
         // The angle between sides.
         angle1 = PI * (n_sides - 2) / n_sides;

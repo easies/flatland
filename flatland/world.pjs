@@ -58,25 +58,27 @@ public class World implements Drawable, IWorld {
 public class PentaWorld extends World {
     void mouseDragged() {
         penta.control = new PVector(mouseX, mouseY);
-        redraw();
     }
 
     void mouseMoved() {
+        penta.pressed = false;
         penta.control = new PVector(mouseX, mouseY);
-        redraw();
     }
 
     void mousePressed() {
-        penta.pressed = true;
-        penta.next = new PVector(mouseX, mouseY);
-        redraw();
+        if (penta.pressed) {
+            // Mouse moved out of the canvas, so on a press, we "release".
+            this.mouseReleased();
+        } else {
+            penta.pressed = true;
+            penta.next = new PVector(mouseX, mouseY);
+        }
     }
 
     void mouseReleased() {
         penta.pressed = false;
         penta.control = new PVector(mouseX, mouseY);
         penta.set_points();
-        redraw();
     }
 
     void keyPressed() {
