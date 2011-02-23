@@ -15,6 +15,8 @@ class Penta extends PolygonInMap implements Drawable {
     int n_current;
     int last_time;
     float star_animation = 0.0;
+    int rotating = 0;
+    float angle_v = 0.0;
 
     Penta(Map map, float x, float y) {
         super(map, x, y, 0.0, 50);
@@ -53,6 +55,29 @@ class Penta extends PolygonInMap implements Drawable {
         }
     }
 
+    void rotate_cw() {
+        if (rotating != 1) {
+            rotating = 1;
+            angle_v = 0.1;
+        } else if (angle_v < 0.4) {
+            angle_v += 0.05;
+        }
+    }
+
+    void rotate_ccw() {
+        if (rotating != -1) {
+            rotating = -1;
+            angle_v = -0.1;
+        } else if (angle_v > -0.4) {
+            angle_v -= 0.05;
+        }
+    }
+
+    void rotate_stop() {
+        this.rotating = 0;
+        this.angle_v = 0;
+    }
+
     /**
      * Set the next movement.
      */
@@ -89,6 +114,7 @@ class Penta extends PolygonInMap implements Drawable {
         // current = 1000 * second() + millis();
         // elapsed = (current - last_time) % 60000;
         // last_time = current;
+        rotate_by(angle_v);
         if (n_current >= next_points.length) {
             _reset();
             return;
@@ -142,7 +168,22 @@ class Penta extends PolygonInMap implements Drawable {
         for (int i = 0, len = vs.length; i < len; i++) {
             midpoints[i] = vs[i] + (vs[(i+12) % len] - vs[i]) / 2;
         }
-        return concat(vs, midpoints);
+        // Reorder the vertices.
+        result = new float[vs.length + midpoints.length];
+        int j = 0;
+        int k = 0;
+        for (int i = 0, len = result.length; i < len; i += 2) {
+            if (j <= k) {
+                result[i] = vs[j];
+                result[i + 1] = vs[j + 1];
+                j += 2;
+            } else {
+                result[i] = midpoints[k];
+                result[i + 1] = midpoints[k + 1];
+                k += 2;
+            }
+        }
+        return result;
     }
 
     void draw_star() {
@@ -151,14 +192,31 @@ class Penta extends PolygonInMap implements Drawable {
         pushMatrix();
         translate(loc.x, loc.y);
         rotate(rotation);
+        fill(#00FFCC);
+        stroke(#00FFCC);
+        beginShape();
+        // The parametric
+        t = (0.7 - abs(angle_v));
+        for (int i = 0, len = vs.length; i < len; i += 2) {
+            if ((i / 2) % 2 == 0) {
+                vertex_x = vs[i];
+                vertex_y = vs[i + 1];
+            } else {
+                vertex_x = vs[i] * t;
+                vertex_y = vs[i + 1] * t;
+            }
+            vertex(vertex_x, vertex_y);
+            if (debug) {
+                rect(vertex_x - 2, vertex_y -2, 4, 4);
+            }
+        }
+        endShape(CLOSE);
         fill(#FFCC00);
         stroke(#FFCC00);
         if (debug) {
             for (int i = 0, len = vs.length; i < len; i += 2) {
-                rect(vs[i] - 2, vs[i + 1] - 2, 4, 4);
             }
         }
-
         popMatrix();
     }
 
@@ -169,9 +227,11 @@ class Penta extends PolygonInMap implements Drawable {
             // Draw the points.
             draw_points();
         }
-        draw_polygon(#FF00FF, #000000);
-        // TODO
-        draw_star();
+        if (rotating == 0) {
+            draw_polygon(#FF00FF, #000000);
+        } else {
+            draw_star();
+        }
         update();
     }
 }

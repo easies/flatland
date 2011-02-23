@@ -85,11 +85,24 @@ public class PentaWorld extends World {
         switch (char(key)) {
         case 'R':
         case 'r':
-            penta.rotate_by(0.1);
+            penta.rotate_cw();
             break;
         case 'E':
         case 'e':
-            penta.rotate_by(-0.1);
+            penta.rotate_ccw();
+            break;
+        default:
+            break;
+        }
+    }
+
+    void keyReleased() {
+        switch (char(key)) {
+        case 'R':
+        case 'r':
+        case 'E':
+        case 'e':
+            penta.rotate_stop();
             break;
         default:
             break;
