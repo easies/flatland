@@ -149,8 +149,7 @@ public class GameOfLife implements Drawable {
         livecells = next_gol.livecells;
     }
 
-    void draw() {
-        _next();
+    void draw_at(x, y) {
         pushMatrix();
         translate(x, y);
         stroke(_color);
@@ -162,5 +161,25 @@ public class GameOfLife implements Drawable {
             rect(lcx * size, lcy * size, size, size);
         }
         popMatrix();
+    }
+
+    void draw() {
+        _next();
+        draw_at(x, y);
+    }
+}
+
+class GameOfLifeInMap extends GameOfLife {
+    Map map;
+
+    GameOfLifeInMap(map, x, y, w, h, _color) {
+        super(x, y, w, h, _color);
+        this.map = map;
+    }
+
+    void draw() {
+        _next();
+        loc = map.screen_location(new PVector(x, y));
+        draw_at(loc.x, loc.y);
     }
 }

@@ -32,7 +32,7 @@ void setup_world2() {
     world = new PentaWorld();
     map = new Map("data/map2.png", new Map2(), null);
     penta = new Penta(map, 100, 100);
-    gol = new GameOfLife(300, 300, 10, 10, #000000);
+    gol = new GameOfLifeInMap(map, 400, 300, 10, 10, #000000);
     gol.add_all({
         1, 2,
         2, 2,

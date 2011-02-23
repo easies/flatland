@@ -92,9 +92,7 @@ class PolygonInMap extends Polygon {
      * @returns The vector of the screen location (of this polygon in a map).
      */
     PVector screen_location() {
-        PVector screen_location = new PVector(location.x, location.y);
-        screen_location.sub(map.left_corner());
-        return screen_location;
+        return map.screen_location(location);
     }
 
     /**

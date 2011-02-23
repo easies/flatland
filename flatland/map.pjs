@@ -68,6 +68,16 @@ public class Map implements Drawable {
     }
 
     /**
+     * @param The location in reference to the map's origin.
+     * @returns The location in reference to the screen.
+     */
+    PVector screen_location(PVector location) {
+        PVector screen_location = new PVector(location.x, location.y);
+        screen_location.sub(this.left_corner());
+        return screen_location;
+    }
+
+    /**
      * Moves the eye by the given deltas. If the resulting position is
      * outside of the bound, the position is corrected.
      * @param dx The x delta.
