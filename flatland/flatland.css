@@ -1,4 +1,8 @@
 
+* {
+  font-family: 'Ubuntu', serif;
+}
+
 .left {
   float: left;
 }

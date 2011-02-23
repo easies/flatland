@@ -8,6 +8,8 @@
     google.load("jqueryui", "1");
   </script>
   <link href="./flatland.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'
+    type='text/css'>
   <script type="text/javascript" src="./js/processing-1.0.0.js"></script>
   <script>
     function getInstance() {
