@@ -4,6 +4,10 @@
  * The pentagon, our main character.
  */
 class Penta extends PolygonInMap implements Drawable {
+    int ROTATING_CLOCKWISE = 1;
+    int ROTATING_COUNTERCLOCKWISE = -1;
+    int ROTATING_STOPPED = 0;
+
     /** vectors for bezier */
     PVector next;
     PVector control;
@@ -56,8 +60,9 @@ class Penta extends PolygonInMap implements Drawable {
     }
 
     void rotate_cw() {
-        if (rotating != 1) {
-            rotating = 1;
+        if (rotating != ROTATING_CLOCKWISE) {
+            // Changed direction or starting, so initialize.
+            rotating = ROTATING_CLOCKWISE;
             angle_v = 0.1;
         } else if (angle_v < 0.4) {
             angle_v += 0.05;
@@ -65,8 +70,8 @@ class Penta extends PolygonInMap implements Drawable {
     }
 
     void rotate_ccw() {
-        if (rotating != -1) {
-            rotating = -1;
+        if (rotating != ROTATING_COUNTERCLOCKWISE) {
+            rotating = ROTATING_COUNTERCLOCKWISE;
             angle_v = -0.1;
         } else if (angle_v > -0.4) {
             angle_v -= 0.05;
@@ -74,7 +79,7 @@ class Penta extends PolygonInMap implements Drawable {
     }
 
     void rotate_stop() {
-        this.rotating = 0;
+        this.rotating = ROTATING_STOPPED;
         this.angle_v = 0;
     }
 
@@ -186,17 +191,17 @@ class Penta extends PolygonInMap implements Drawable {
         return result;
     }
 
-    void draw_star() {
+    void draw_star(stroke_color, fill_color) {
         vs = star_vertices();
         loc = screen_location();
         pushMatrix();
         translate(loc.x, loc.y);
         rotate(rotation);
-        fill(#00FFCC);
-        stroke(#00FFCC);
+        fill(fill_color);
+        stroke(stroke_color);
         beginShape();
         // The parametric
-        t = (0.7 - abs(angle_v));
+        t = (1.0 - abs(angle_v));
         for (int i = 0, len = vs.length; i < len; i += 2) {
             if ((i / 2) % 2 == 0) {
                 vertex_x = vs[i];
@@ -227,10 +232,10 @@ class Penta extends PolygonInMap implements Drawable {
             // Draw the points.
             draw_points();
         }
-        if (rotating == 0) {
+        if (rotating == ROTATING_STOPPED) {
             draw_polygon(#FF00FF, #000000);
         } else {
-            draw_star();
+            draw_star(#FF00FF, #000000);
         }
         update();
     }
