@@ -8,15 +8,21 @@ class CreditsWorld extends GenericMenuWorld {
     }
 
     void draw() {
+        String s;
         super.draw();
         pushStyle();
         stroke(255);
         fill(255);
         textSize(60);
-        String s = "Credits";
+        s = "Credits";
         text(s, (width - textWidth(s)) / 2, 60);
-        s = "Alex Lee";
+        textSize(30);
+        s = "Based on Flatland"
         text(s, (width - textWidth(s)) / 2, height / 2);
+        s = "by Edwin A. Abbot";
+        text(s, (width - textWidth(s)) / 2, height / 2 + 40);
+        s = "An Alex Lee Production";
+        text(s, (width - textWidth(s)) / 2, height / 2 + 100);
         popStyle();
     }
 }
