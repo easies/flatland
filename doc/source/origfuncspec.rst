@@ -24,13 +24,13 @@ The user will play a regular pentagon. It will be movable around the
 screen with the mouse. When the user presses a button, the pentagon will
 transform into a five-point star and begin rotating.
 
-.. image:: pentagon.png
+.. image:: _static/pentagon.png
 
 The isosceles triangles are soldiers. They have an ability to charge
 forward like a rhino. When the user is in the way of the charge, the
 user is deducted life points.
 
-.. image:: isosceles.png
+.. image:: _static/isosceles.png
 
 The equilateral triangles are the laborers. The squares are the middle
 class. The hexagons are the lowest ranking loyalty.
@@ -41,11 +41,11 @@ more acute heptagram (green) is also known as a fairy star to pagans. It
 is also significant in ancient astrology. The religious aspect of the
 heptagon will be considered.
 
-.. image:: heptagon.png
+.. image:: _static/heptagon.png
 
 The circles are the priests.
 
-.. image:: circle-chainsaw.png
+.. image:: _static/circle-chainsaw.png
 
 The Chief Circle is the final boss of the game. He will have the ability
 to shape-shift like the image above. Also, he will be able to summon
@@ -145,7 +145,7 @@ The first level starts from a jail cell. The pentagon gets sprung out
 of the jail by the rebels, and with their help he escapes. The locking
 mechanism on "doors" look like the following:
 
-.. image:: tumbler.png
+.. image:: _static/tumbler.png
 
 This mechanism will be reused in later levels.
 
@@ -160,7 +160,7 @@ will be to gather parts (pictured below) that will make a pentagon into
 a circle. In the next level, these prosthetics will be used to sneak
 into the inner sanctum of the circles.
 
-.. image:: arc.png
+.. image:: _static/arc.png
 
 The final level will involve confronting the Chief Circle and defeating
 him in battle. The user will be locked in a room with the Chief Circle.
