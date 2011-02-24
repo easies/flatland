@@ -3,11 +3,14 @@
 Third-party code
 ================
 
-Flatland uses these libraries:
+Flatland uses these third-party libraries:
 
-    Processing.js (1.0.0) flatland/js/processing-1.0.0.js
-                          flatland/js/processing-1.0.0.min.js
-
+    * Processing.js (1.0.0)
+        * flatland/js/processing-1.0.0.js
+        * flatland/js/processing-1.0.0.min.js
+    * Google's jsapi to load:
+        * jQuery
+        * jQuery UI
 
 Image sources
 =============
