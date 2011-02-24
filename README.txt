@@ -28,7 +28,8 @@ Documentation
 =============
 
 The documentation sources are at ``./doc/``. The generated documentation will
-be at ``./flatland/doc/``.
+be at ``./flatland/doc/``. You can browse it by launching a browser to that
+location (it is also linked from the app).
 
 To generate the documentation, you need `sphinx <http://sphinx.pocoo.org/>`_.
 
@@ -36,6 +37,22 @@ To generate the documentation, you need `sphinx <http://sphinx.pocoo.org/>`_.
     source env/bin/activate
     pip install sphinx
     cd ./doc/ && make html
+
+Running
+=======
+
+A shell script ``./run.sh`` is included, which will make, run a webserver,
+then launch a browser. To do it manually:
+
+    cd flatland && make
+    python -m SimpleHTTPServer &
+    google-chrome http://localhost:8000
+
+Tests
+=====
+
+The tests are located at ``./flatland/tests``. To run the test, you need to
+``make`` in the directory then launch a browser at ``./flatland/tests/``.
 
 LICENSE.txt
 ===========

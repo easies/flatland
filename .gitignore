@@ -7,3 +7,4 @@ flatland/map*.js
 flatland/index.html
 flatland/tests/index.html
 flatland/tests/all_tests.pjs
+doc/build
