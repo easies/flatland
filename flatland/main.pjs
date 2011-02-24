@@ -3,10 +3,10 @@
  *                or http://www.vim.org/scripts/script.php?script_id=2115
  */
 
-IWorld world;
-Penta penta;
-
 PFont default_font = loadFont("Ubuntu");
+
+/* The global world instance. */
+IWorld world;
 /* Show FPS flag */
 boolean fps_on = false;
 /* Debug flag */
@@ -21,18 +21,17 @@ void setup_menu() {
 }
 
 void setup_world1() {
-    world = new PentaWorld();
     map = new Map("data/map1.png", new Map1(), setup_world2);
     penta = new Penta(map, 50, 50);
+    world = new PentaWorld(penta);
     world.add(map);
-    world.add(penta);
 }
 
 void setup_world2() {
-    world = new PentaWorld();
     map = new Map("data/map2.png", new Map2(), null);
     penta = new Penta(map, 100, 100);
-    gol = new GameOfLifeInMap(map, 350, 0, 40, 40, #333300);
+    world = new PentaWorld(penta);
+    gol = new GameOfLifeInMap(map, 350, 0, 40, 40, #FF338F);
     // The glider gun.
     // From http://en.wikipedia.org/wiki/File:Game_of_life_glider_gun.svg
     gol.add_all({
@@ -75,7 +74,6 @@ void setup_world2() {
     });
     world.add(map);
     world.add(gol);
-    world.add(penta);
 }
 
 void goto_credits() {

@@ -270,3 +270,57 @@ class Penta extends PolygonInMap implements Drawable {
         update();
     }
 }
+
+class PentaWorld extends World {
+    Penta penta;
+
+    PentaWorld(Penta penta) {
+        super();
+        this.penta = penta;
+    }
+
+    void draw() {
+        super.draw();
+        penta.draw();
+    }
+
+    void mouseDragged() {
+        penta.control = new PVector(mouseX, mouseY);
+    }
+
+    void mouseMoved() {
+        penta.pressed = false;
+        penta.control = new PVector(mouseX, mouseY);
+    }
+
+    void mousePressed() {
+        if (penta.pressed) {
+            // Mouse moved out of the canvas, so on a press, we "release".
+            this.mouseReleased();
+        } else {
+            penta.pressed = true;
+            penta.next = new PVector(mouseX, mouseY);
+        }
+    }
+
+    void mouseReleased() {
+        penta.pressed = false;
+        penta.control = new PVector(mouseX, mouseY);
+        penta.set_points();
+    }
+
+    void keyTyped() {
+        switch (char(key)) {
+        case 'R':
+        case 'r':
+            penta.toggle_rotate_cw();
+            break;
+        case 'E':
+        case 'e':
+            penta.toggle_rotate_ccw();
+            break;
+        default:
+            break;
+        }
+    }
+}
