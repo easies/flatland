@@ -43,6 +43,10 @@ void setup_world2() {
     world.add(gol);
 }
 
+void goto_credits() {
+    world = new CreditsWorld();
+}
+
 void setup() {
     frameRate(60);
     size(800, 600);

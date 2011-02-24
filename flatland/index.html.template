@@ -14,22 +14,29 @@
     function getInstance() {
       return Processing.getInstanceById($('canvas')[0].id);
     }
+
+    $(function() {
+      $("#credits-link").click(function (e) {
+        e.preventDefault();
+        var p = getInstance();
+        p.goto_credits();
+      });
+    });
   </script>
 {{{scripts}}}
 </head>
 <body>
 <div id="content">
   <div class="left">
-    <h1>Flatland Primer</h1>
     <canvas data-processing-sources="preload.pjs flatland.pjs"
         width="800" height="600">
       You need a browser with canvas support. Try Google Chrome or Firefox.
     </canvas>
   </div>
-  <div class="right">
+  <div class="left">
     <nav>
       <a href="./doc/">Documentation</a>
-      <a href="./credits.html">Credits</a>
+      <a href="" id="credits-link">Credits</a>
     </nav>
     <div>
       blah

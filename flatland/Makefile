@@ -2,7 +2,7 @@
 
 
 SOURCES = main.pjs events.pjs bezier.pjs gameoflife.pjs map.pjs polygon.pjs\
-	world.pjs penta.pjs menu.pjs
+	world.pjs penta.pjs menu.pjs credits.pjs
 # cpp strips out comments. -P disables header comments.
 JS_MAPS = map1.js map2.js
 python = /usr/bin/python

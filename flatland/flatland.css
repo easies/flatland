@@ -1,6 +1,13 @@
 
 * {
+  background-color: black;
   font-family: 'Ubuntu', serif;
+  color: white;
+}
+
+*, body {
+  margin: 2px;
+  padding: 0px;
 }
 
 .left {
@@ -8,9 +15,10 @@
 }
 
 #content {
-  margin: 0 auto;
+  margin: 0px;
+  padding: 0px;
 }
 
 canvas {
-  border: 1px solid black;
+  border: 1px solid white;
 }

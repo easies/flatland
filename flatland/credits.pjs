@@ -1,0 +1,22 @@
+/* vim: set ft=processing : */
+
+class CreditsWorld extends GenericMenuWorld {
+    CreditsWorld() {
+        super();
+        things.add(new BackToMainMenuButton(width - 200, height - 100,
+            150, 50, "back", 30));
+    }
+
+    void draw() {
+        super.draw();
+        pushStyle();
+        stroke(255);
+        fill(255);
+        textSize(60);
+        String s = "Credits";
+        text(s, (width - textWidth(s)) / 2, 60);
+        s = "Alex Lee";
+        text(s, (width - textWidth(s)) / 2, height / 2);
+        popStyle();
+    }
+}
