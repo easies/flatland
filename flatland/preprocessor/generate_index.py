@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import sys
 
+# Generates index.html
+# Inserts <script src="..."></script> lines for each map*.js files.
 
 # Read in the template.
 f = open('index.html.template', 'r')
