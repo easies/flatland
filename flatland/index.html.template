@@ -15,12 +15,26 @@
       return Processing.getInstanceById($('canvas')[0].id);
     }
 
-    $(function() {
-      $("#credits-link").click(function (e) {
+    function goto_world(callback) {
+      return function(e) {
         e.preventDefault();
-        var p = getInstance();
+        callback(getInstance());
+      };
+    }
+
+    $(function() {
+      $("#credits-link").click(goto_world(function (p) {
         p.goto_credits();
-      });
+      }));
+      $("#jump-to-main").click(goto_world(function (p) {
+        p.setup_menu();
+      }));
+      $("#jump-to-level1").click(goto_world(function (p) {
+        p.setup_world1();
+      }));
+      $("#jump-to-level2").click(goto_world(function (p) {
+        p.setup_world2();
+      }));
     });
   </script>
 {{{scripts}}}
@@ -35,11 +49,15 @@
   </div>
   <div class="left">
     <nav>
-      <a href="./doc/">Documentation</a>
-      <a href="" id="credits-link">Credits</a>
+      <ul>
+        <li><a href="./doc/">Documentation</a></li>
+        <li><a href="" id="jump-to-main">Main Menu</a></li>
+        <li><a href="" id="jump-to-level1">Level 1</a></li>
+        <li><a href="" id="jump-to-level2">Level 2</a></li>
+        <li><a href="" id="credits-link">Credits</a></li>
+      </ul>
     </nav>
     <div>
-      blah
     </div>
   </div>
 </div>

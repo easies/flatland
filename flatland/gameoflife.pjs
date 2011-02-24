@@ -8,7 +8,7 @@
  * Referenced: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
 class GameOfLife implements Drawable {
-    float x, y;
+    PVector location;
     /* width height */
     float w, h;
     int[] cells;
@@ -17,14 +17,21 @@ class GameOfLife implements Drawable {
     int tick;
 	color _color;
 
-    GameOfLife(x, y, w, h, _color) {
-        this.x = x, this.y = y;
-        this.w = w, this.h = h;
-        cells = new int[w * h];
+    GameOfLife(x, y, _width, _height, _color) {
+        this.location = new PVector(x, y);
+        this.w = _width, this.h = _height;
+        cells = new int[_width * _height];
         livecells = new ArrayList();
         size = 20;
         tick = second();
 		this._color = _color;
+    }
+
+    /**
+     * @returns A copy.
+     */
+    GameOfLife clone() {
+        return new GameOfLife(location.x, location.y, w, h, _color);
     }
 
     /**
@@ -53,8 +60,8 @@ class GameOfLife implements Drawable {
     }
 
     int contains_point(float px, float py) {
-        float dx = px - x;
-        float dy = py - y;
+        float dx = px - location.x;
+        float dy = py - location.y;
         if (dx < 0 || dy < 0) {
             return -1;
         }
@@ -113,7 +120,8 @@ class GameOfLife implements Drawable {
      * @returns The next iteration of this game of life.
      */
     GameOfLife next() {
-        GameOfLife next_gol = new GameOfLife(x, y, w, h, _color);
+        GameOfLife next_gol = this.clone();
+        //new GameOfLife(x, y, w, h, _color);
         ArrayList empties = new ArrayList(livecells.size() * 8);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
@@ -180,7 +188,7 @@ class GameOfLife implements Drawable {
 
     void draw() {
         _next();
-        draw_at(x, y);
+        draw_at(location.x, location.y);
     }
 }
 
@@ -194,7 +202,7 @@ class GameOfLifeInMap extends GameOfLife {
 
     void draw() {
         _next();
-        loc = map.screen_location(new PVector(x, y));
+        loc = map.screen_location(location);
         draw_at(loc.x, loc.y);
     }
 }
