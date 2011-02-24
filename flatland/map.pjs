@@ -1,7 +1,7 @@
 /* vim: set ft=processing: */
 
 
-public class Map implements Drawable {
+class Map implements Drawable {
     /** The position of the eye. This is the center of the screen. */
     float eye_x;
     float eye_y;

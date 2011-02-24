@@ -56,7 +56,7 @@ class Polygon {
         return points;
     }
 
-    static void _draw_polygon(PVector location, float rotation, Array vertices,
+    void _draw_polygon(PVector location, float rotation, Array vertices,
         color stroke_color, color fill_color) {
         pushMatrix();
         stroke(stroke_color);

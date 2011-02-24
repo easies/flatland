@@ -7,7 +7,7 @@
  * 3. Empty cells with three neighbors gets "birthed".
  * Referenced: http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
-public class GameOfLife implements Drawable {
+class GameOfLife implements Drawable {
     float x, y;
     /* width height */
     float w, h;

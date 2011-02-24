@@ -1,13 +1,13 @@
 /* vim: set ft=processing : */
 
-public interface Drawable {
+interface Drawable {
     /**
      * Draw this.
      */
     void draw();
 }
 
-public interface IWorld {
+interface IWorld {
     /* Event handlers.
      * These are hooked to the global event handlers in events.pjs
      */
@@ -24,7 +24,7 @@ public interface IWorld {
 /**
  * The world. Contains Drawable things.
  */
-public class World implements Drawable, IWorld {
+class World implements Drawable, IWorld {
     ArrayList things;
 
     World() {
@@ -55,7 +55,7 @@ public class World implements Drawable, IWorld {
     void keyTyped() {}
 }
 
-public class PentaWorld extends World {
+class PentaWorld extends World {
     void mouseDragged() {
         penta.control = new PVector(mouseX, mouseY);
     }
