@@ -24,7 +24,7 @@ class Penta extends PolygonInMap implements Drawable {
     float angle_v_delta = 0.0;
 
     Penta(Map map, float x, float y) {
-        super(map, x, y, 0.0, 50);
+        super(map, 5, x, y, 0.0, 50);
         pressed = false;
         n_current = 0;
         control = new PVector(0, 0);

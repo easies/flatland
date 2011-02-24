@@ -1,0 +1,24 @@
+/* vim: set ft=processing : */
+
+/* The macros are from: */
+/* http://www.jera.com/techinfo/jtns/jtn002.html */
+
+int tests_run = 0;
+
+#define assert(test, message) do {\
+    if (!(test))\
+        return "test: " + #test + ", message: " + message;\
+    } while(0)
+#define run_test(test) do {\
+    String message = test();\
+    tests_run++;\
+    print(".");\
+    if (message)\
+        println(message);\
+    } while (0)
+
+
+void assert_within(value, expected, within, message) {
+    assert((expected - within) <= value && value <= (expected + within),
+        message);
+}

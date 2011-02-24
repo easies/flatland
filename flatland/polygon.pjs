@@ -11,15 +11,15 @@ class Polygon {
     int n_sides;
     int side_length;
 
-    Polygon(float x, float y, int side) {
-        this(x, y, 0.0, side);
+    Polygon(int n_sides, float x, float y, int side) {
+        this(n_sides, x, y, 0.0, side);
     }
 
-    Polygon(float x, float y, float rotation, int side) {
+    Polygon(int n_sides, float x, float y, float rotation, int side) {
         location = new PVector(x, y);
         this.rotation = rotation;
         this.side_length = side;
-        n_sides = 5;
+        this.n_sides = n_sides;
     }
 
     /**
@@ -83,8 +83,9 @@ class Polygon {
 class PolygonInMap extends Polygon {
     Map map;
 
-    PolygonInMap(Map map, float x, float y, float rotation, int side) {
-        super(x, y, rotation, side);
+    PolygonInMap(Map map, int n_sides, float x, float y, float rotation,
+            int side) {
+        super(n_sides, x, y, rotation, side);
         this.map = map;
     }
 

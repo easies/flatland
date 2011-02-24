@@ -1,0 +1,10 @@
+void setup() {
+    noLoop();
+}
+void draw() {
+    run_test(test_polygon_move_by);
+    run_test(test_polygon_rotate_by);
+    run_test(test_polygon_vertices);
+    println("tests run: " + tests_run);
+    println("done");
+}

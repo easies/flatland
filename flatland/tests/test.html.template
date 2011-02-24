@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+<title>Test Polygon</title>
+  <script type="text/javascript" src="../js/processing-1.0.0.js"></script>
+</head>
+<body>
+A div should pop up with test info.
+<canvas data-processing-sources="{{{test_script}}} {{{dependencies}}}">
+You need a better browser.
+</canvas>
+</body>
+</html>
