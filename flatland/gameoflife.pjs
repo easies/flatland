@@ -56,7 +56,7 @@ class GameOfLife implements Drawable {
      * @param y The y coordinate of the live cell.
      */
     void add(int x, int y) {
-        add_index(x * w + y);
+        add_index(y * w + x);
     }
 
     int contains_point(float px, float py) {
@@ -92,16 +92,43 @@ class GameOfLife implements Drawable {
         return 0 <= x && x < w && 0 <= y && y < h;
     }
 
+    int[] _neighbors(int _x, int _y) {
+        int n = _y * w + _x;
+        // Check each neighbor for bounds.
+        ArrayList l = new ArrayList();
+        // top left neighbor
+        if (_x > 0 && _y > 0)
+            l.add(n - w - 1);
+        // botton left neighbor
+        if (_x > 0 && _y < h - 1)
+            l.add(n + w - 1);
+        // left side neighbor
+        if (_x > 0)
+            l.add(n - 1);
+        // right side neighbor
+        if (_x < w - 1)
+            l.add(n + 1);
+        // top side neighbor
+        if (_y > 0)
+            l.add(n - w);
+        // bottom side neighbor
+        if (_y < h - 1)
+            l.add(n + w);
+        // top right neighbor
+        if (_x < w - 1 && _y > 0)
+            l.add(n - w + 1);
+        // bottom right neighbor
+        if (_x < w - 1 && _y < h - 1)
+            l.add(n + w + 1);
+        return l.toArray();
+    }
+
     /**
      * @param n The index.
      * @returns The array of neighbor's indices.
      */
     int[] neighbors(int n) {
-        return new int[] {
-            n - w - 1, n - w, n - w + 1,
-            n - 1,                n + 1,
-            n + w - 1, n + w, n + w + 1
-        };
+        return _neighbors(n % w, floor(n / w));
     }
 
     int count_neighbors(int n) {
@@ -179,8 +206,8 @@ class GameOfLife implements Drawable {
         fill(_color);
         for (int i = 0, len = livecells.size(); i < len; i++) {
             lc = livecells.get(i);
-            lcx = floor(lc / w);
-            lcy = lc % w;
+            lcx = lc % w;
+            lcy = floor(lc / w);
             rect(lcx * size, lcy * size, size, size);
         }
         popMatrix();

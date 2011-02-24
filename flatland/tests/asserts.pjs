@@ -8,11 +8,12 @@ int tests_run = 0;
 #define assert(test, message) do {\
     if (!(test))\
         return "test: " + #test + ", message: " + message;\
+    else\
+        print(".");\
     } while(0)
 #define run_test(test) do {\
     String message = test();\
     tests_run++;\
-    print(".");\
     if (message)\
         println(message);\
     } while (0)

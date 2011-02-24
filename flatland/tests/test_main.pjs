@@ -5,6 +5,7 @@ void draw() {
     run_test(test_polygon_move_by);
     run_test(test_polygon_rotate_by);
     run_test(test_polygon_vertices);
+    run_test(test_gameoflife_neighbors);
     println("tests run: " + tests_run);
     println("done");
 }

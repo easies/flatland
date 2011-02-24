@@ -1,7 +1,7 @@
 # Helper Makefile for tests.
 
 
-SOURCES = asserts.pjs test_*.pjs ../polygon.pjs
+SOURCES = asserts.pjs test_*.pjs ../polygon.pjs ../gameoflife.pjs
 # cpp strips out comments. -P disables header comments.
 
 python = /usr/bin/python
